@@ -264,7 +264,7 @@ module GeneticAlgorithms
             if model.params.historyPath != nothing
                 write(model.params.historyPath, _log)
             end
-            empty!(model.RefSet)
+            empty!(model.refSet)
             for i in 1:7
                 push!(model.refSet, pop!(model.population))
             end
