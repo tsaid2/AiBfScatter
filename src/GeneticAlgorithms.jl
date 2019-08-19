@@ -106,7 +106,7 @@ module GeneticAlgorithms
         oldTypeSet = []
         #Type2
         for i in 1:(n-1)
-            map( a -> (push!(subSets, [a,i]); push!(currentTypeSet, [a,i]) ), i+1:n )
+            map( a -> (push!(subSets, [a,i]); push!(currentTypeSet, [i, a]) ), i+1:n )
         end
         # Type3
         oldTypeSet = currentTypeSet
@@ -167,7 +167,7 @@ module GeneticAlgorithms
                     _log *= "Gen : $(model.params.currentGeneration) , "
                     _log *= "BEST: $_fitness , \n"
                     if j%500 == 0
-                        _log *= show_simulation(model, model.refSet[lastIdx])
+                        _log *= show_simulation(model, model.refSet[lastIdx]) * "\n"
                     end
                     print(_log)
                     if model.params.historyPath != nothing
@@ -264,7 +264,7 @@ module GeneticAlgorithms
             if model.params.historyPath != nothing
                 write(model.params.historyPath, _log)
             end
-
+            empty!(model.RefSet)
             for i in 1:7
                 push!(model.refSet, pop!(model.population))
             end
