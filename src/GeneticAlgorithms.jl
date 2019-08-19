@@ -234,7 +234,7 @@ module GeneticAlgorithms
         =#
         lastIdx = model.params.populationSize #length(model.population)
         reset_model(model)
-        pSize = 0
+        #=pSize = 0
         popu = []
         while pSize < lastIdx
             create_initial_population(model)
@@ -247,8 +247,12 @@ module GeneticAlgorithms
             end
             reset_model(model)
         end
-        model.population = popu
-
+        model.population = popu=#
+        create_initial_population(model)
+        evaluate_population(model)
+        for i in 1:7
+            push!(model.refSet, pop!(model.population))
+        end
         #=
         2. Use the reference set update method to build RefSet = { x 1 , ..., x b } with the “best” b solutions in P.
          Order the solutions in RefSet according to their objective function value such that x 1 is
@@ -264,10 +268,6 @@ module GeneticAlgorithms
             if model.params.historyPath != nothing
                 write(model.params.historyPath, _log)
             end
-            empty!(model.refSet)
-            for i in 1:7
-                push!(model.refSet, pop!(model.population))
-            end
 
             for i in 1:7
                 index = addNew(model.refSet, model.population)
@@ -281,8 +281,10 @@ module GeneticAlgorithms
             best = model.refSet[length(model.refSet)]
             found = best.fitness >= model.params.targetFitness
             if !found
-                append!(model.population, model.refSet)
+                #append!(model.population, model.refSet)
+                create_initial_population(model)
                 evaluate_population(model)
+                model.refSet = model.refSet[8:14]
             end
         end
 
