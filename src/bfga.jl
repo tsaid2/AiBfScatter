@@ -120,7 +120,7 @@ module bfga
         mem
     end
 
-    #=function crossover(group)
+    function crossover(group)
         parent1 = group[1]
         parent2 = group[2]
         n1 = length(parent1.dna)
@@ -149,9 +149,9 @@ module bfga
         child1.m_length = minN #length(child1.dna)
         child2.m_length = minN #length(child2.dna)
         child1, child2
-    end=#
+    end
 
-    function crossover(group)
+    #=function crossover(group)
         parent1 = group[1]
         parent2 = group[2]
         n1 = length(parent1.dna)
@@ -168,7 +168,7 @@ module bfga
             mem = rand(1:2)
             mem2 = (mem%2) +1
             child1.dna[i] = group[mem].dna[i]
-            child2.dna[i] = group[ mem2].dna[i]
+            child2.dna[i] = group[mem2].dna[i]
         end
         mutate(child1)
         mutate(child2)
@@ -177,7 +177,7 @@ module bfga
         child1.m_length = minN #length(child1.dna)
         child2.m_length = minN #length(child2.dna)
         child1, child2
-    end
+    end=#
 
     function mutate(ent)
         m_length = length(ent.dna)
