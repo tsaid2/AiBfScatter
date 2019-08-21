@@ -62,7 +62,7 @@ module GeneticAlgorithms
         printed = model.specific_fitness.simulate_entity(ent, model.instructionsSet)
         @show ent.fitness
         #@show model.specific_fitness.fitness(ent)
-        println(printed)
+        #println(printed)
         return "fitness : $(ent.fitness) \n $printed"
     end
 
@@ -292,7 +292,7 @@ module GeneticAlgorithms
         print("\n **********DONE*******")
         if model.params.historyPath != nothing
             best = model.refSet[length(model.refSet)] #[length(model.population)]
-            _log = show_simulation(model, best)
+            _log = show_simulation(model, best) * "\n"
             #_log *= "\n Generation : $(model.params.currentGeneration) \n"
             _log *= "fitness $(best.fitness) \n"
             _log *= "dna : $(best.dna) \n"
