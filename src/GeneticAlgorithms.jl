@@ -282,6 +282,7 @@ module GeneticAlgorithms
             found = best.fitness >= model.params.targetFitness
             if !found
                 #append!(model.population, model.refSet)
+                empty!(model.population)
                 create_initial_population(model)
                 evaluate_population(model)
                 model.refSet = model.refSet[11:14]
