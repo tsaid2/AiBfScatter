@@ -167,7 +167,7 @@ module bfga
         for i in 1:minN
             mem = rand(1:2)
             child1.dna[i] = group[mem].dna[i]
-            child2.dna[i] = group[ mem%2) +1].dna[i]
+            child2.dna[i] = group[ (mem%2) +1].dna[i]
         end
         mutate(child1)
         mutate(child2)
