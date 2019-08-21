@@ -10,12 +10,12 @@ for tests in [
 			#"runtestLogicalXor.jl", 	#
 			#"runtestReverseString.jl",	# worked twice, pb, don't know why it doesn't work, working on
 			#"runtestLengthString.jl",	# work twice and didn't try since
-			#"runtestTimesTwo.jl",		# work sure
+			"runtestTimesTwo.jl",		# work sure
 			#"runtestTimesThree.jl"
 			#"runtestLogicalAnd.jl",	# wrok with extended sure
 			#"runtestRepeat.jl",		# work sure
 			#"runtestWarningCountdown.jl" # Doesn't work, NENI
-			"runtestExtractInQuote.jl",
+			#"runtestExtractInQuote.jl",
 			#"runtestExtractInQuoteInside.jl"
 ]
     include(tests)
