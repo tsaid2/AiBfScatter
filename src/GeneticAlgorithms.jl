@@ -250,7 +250,7 @@ module GeneticAlgorithms
         model.population = popu=#
         create_initial_population(model)
         evaluate_population(model)
-        for i in 1:7
+        for i in 1:4
             push!(model.refSet, pop!(model.population))
         end
         #=
@@ -269,7 +269,7 @@ module GeneticAlgorithms
                 write(model.params.historyPath, _log)
             end
 
-            for i in 1:7
+            for i in 1:10
                 index = addNew(model.refSet, model.population)
                 push!(model.refSet, model.population[index])
                 deleteat!(model.population, index)
@@ -284,7 +284,7 @@ module GeneticAlgorithms
                 #append!(model.population, model.refSet)
                 create_initial_population(model)
                 evaluate_population(model)
-                model.refSet = model.refSet[8:14]
+                model.refSet = model.refSet[11:14]
             end
         end
 
