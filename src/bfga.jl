@@ -121,8 +121,10 @@ module bfga
     end
 
     function crossover(group)
-        parent1 = group[1]
-        parent2 = group[2]
+        mem = rand(1:2)
+        mem2 = mem%2 +1
+        parent1 = group[mem]
+        parent2 = group[mem2]
         n1 = length(parent1.dna)
         n2 = length(parent2.dna)
         pos = trunc(Int, rand() * n1)
