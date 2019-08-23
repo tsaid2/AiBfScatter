@@ -85,17 +85,17 @@ module GeneticAlgorithms
         for e in population
             mini = k
             for s in refSet
-                #mini = min(mini, sum(e.dna-s.dna).^2)
-                mini = min(mini, distance(e,s))
+                mini = min(mini, sum(e.dna-s.dna).^2)
+                #mini = min(mini, distance(e,s))
             end
             push!(l, mini)
         end
         index = argmax(l)
     end
 
-    function findFirstNotIn(ens, i)
+    function findBestNotIn(ens, i)
         if i in ens
-            return findFirstNotIn(ens, i+1)
+            return findBestNotIn(ens, i+1)
         else
             return i
         end
@@ -111,9 +111,9 @@ module GeneticAlgorithms
         end
         # Type3
         oldTypeSet = currentTypeSet
-        oldTypeSet = map( a -> (i = findFirstNotIn(a, 1); push!(subSets, [a;i]); [a;i]), oldTypeSet )
+        oldTypeSet = map( a -> (i = findBestNotIn(a, 1); push!(subSets, [a;i]); [a;i]), oldTypeSet )
         #Type 4
-        oldTypeSet = map( a -> (i = findFirstNotIn(a, 1); push!(subSets, [a;i]); [a;i]), oldTypeSet )
+        oldTypeSet = map( a -> (i = findBestNotIn(a, 1); push!(subSets, [a;i]); [a;i]), oldTypeSet )
         # Type 5
         map(a -> push!(subSets, 1:a), 5:n)
         subSets
@@ -123,11 +123,18 @@ module GeneticAlgorithms
         newSolutions = true
         j = 0
         while newSolutions
+            index = addNew(model.refSet, model.population)
+            newE = model.population[index]
+            deleteat!(model.population, index)
+            push!(model.population, popfirst!(model.refSet))
+            push!(model.refSet, newE)
             # 3. Generate NewSubsets with the subset generation method. Make NewSolutions = FALSE.
             lrefSet = length(model.refSet)
             model.subSets = subSetsGeneration(lrefSet)
             newSolutions = false
             while !isempty(model.subSets)
+                #evaluate_refSet(model)
+                #popfirst!(model.population, )
                 # 4. Select the next subset s in NewSubsets
                 s = pop!(model.subSets)
                 # 5. Apply the solution combination method to s to obtain one or more new trial solutions x.
@@ -200,6 +207,7 @@ module GeneticAlgorithms
                 # 8. Delete s from NewSubsets.
                 # --> already done with pop!
             end
+            evaluate_refSet(model)
         end
     end
 
