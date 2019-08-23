@@ -66,17 +66,17 @@ module GeneticAlgorithms
         return "fitness : $(ent.fitness) \n $printed"
     end
 
-    function runga(mdl::Module, fit_mdl :: Module )
-        # get the parameters of the specific fitness
-        model = GAmodel(fit_mdl.getParams())
-        model.specific_fitness = fit_mdl
+    function d_aux(x,y)
+        sum(x-y).^2
+    end
 
-        # save the ga (mutation and crossover units function)
-        model.ga = mdl
-        # save once the dictionary of instructions Set
-        model.instructionsSet = mdl.getInstructionsSet()
-        #run the ga
-        runga(model; resume = false)
+    function distance(x,y)
+        l = length(x.dna)
+        mini = l
+        for i in -1:1
+            mini = min(mini, d_aux(x.dna[2:l-1], y.dna[2+i:l-1+i]))
+        end
+        mini
     end
 
     function addNew(refSet, population)
@@ -85,7 +85,8 @@ module GeneticAlgorithms
         for e in population
             mini = k
             for s in refSet
-                mini = min(mini, sum(e.dna-s.dna).^2)
+                #mini = min(mini, sum(e.dna-s.dna).^2)
+                mini = min(mini, distance(e,s))
             end
             push!(l, mini)
         end
@@ -198,6 +199,18 @@ module GeneticAlgorithms
     end
 
 
+    function runga(mdl::Module, fit_mdl :: Module )
+        # get the parameters of the specific fitness
+        model = GAmodel(fit_mdl.getParams())
+        model.specific_fitness = fit_mdl
+
+        # save the ga (mutation and crossover units function)
+        model.ga = mdl
+        # save once the dictionary of instructions Set
+        model.instructionsSet = mdl.getInstructionsSet()
+        #run the ga
+        runga(model; resume = false)
+    end
 
 
     function runga(model::GAmodel; resume = false)
