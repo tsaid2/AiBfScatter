@@ -19,7 +19,7 @@ module bfgaLengthString
     using Distributed
 
 
-    words = ["cori@domain.com", "mt@po.box", "test", "johnandjanesdfgjnsdkfjgjnrtkhreuitgure", "unknown-string-goes-here"]
+    words = ["corio@domain.com", "mt@po.box", "test", "johnandjanesdfgjnsdkfjgjnrtkhreuitgure", "unknown-string-goes-here"]
     _results = [15,9,4,38,24]
 
 
@@ -52,8 +52,8 @@ module bfgaLengthString
 
             score = 0
             n= length(output)
-
-            score = 256 - abs(output[1] - goal)
+            diff = output[1] - goal
+            score = 256 - abs(diff) #+ (diff == 0 ? 0 : (diff > 0 ? -1 : -2) )
 
             ent.bonus += (2000 - m_Ticks)
 

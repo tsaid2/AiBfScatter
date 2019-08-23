@@ -153,7 +153,7 @@ module bfga
         child1, child2
     end=#
 
-    function crossover(group)
+    #=function crossover(group)
         parent1 = group[1]
         parent2 = group[2]
         n1 = length(parent1.dna)
@@ -178,6 +178,25 @@ module bfga
         #clearCode!(child2)
         child1.m_length = minN #length(child1.dna)
         child2.m_length = minN #length(child2.dna)
+        child1, child2
+    end=#
+
+    function crossover(group)
+        nEnt = length(group)
+        n = length(group[1].dna)
+        child1 = child1 = create_entity(1, n)
+        child2 = child1 = create_entity(1, n)
+        hop  = div(n, nEnt)
+        num = 1
+        for i in 1:n
+            child1.dna[i] = group[num].dna[i]
+            child2.dna[i] = group[(nEnt - num +1)].dna[i]
+            if i < nEnt && (i%hop) ==0
+                num += 1
+            end
+        end
+        mutate(child1, 0.01)
+        mutate(child2, 0.01)
         child1, child2
     end
 

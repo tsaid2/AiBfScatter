@@ -132,12 +132,17 @@ module GeneticAlgorithms
                 s = pop!(model.subSets)
                 # 5. Apply the solution combination method to s to obtain one or more new trial solutions x.
                 # Apply the improvement method to the trial solutions.
-                ls = length(s)
                 pool = []
+
+                #=ls = length(s)
                 for i in 1:ls-1
                     map( a -> ((child1, child2) = model.ga.crossover(Any[model.refSet[a],model.refSet[i]]);
                             push!(pool, child1); push!(pool, child2) ) , i+1:ls )
-                end
+                end=#
+                group = map( j -> model.refSet[j], s)
+                (child1, child2) = model.ga.crossover(group)
+                push!(pool, child1)
+                push!(pool, child2)
 
                 pmap(
                     ent -> (model.ga.entityToBfInstructions!(ent); model.specific_fitness.fitness(ent, model.instructionsSet))
