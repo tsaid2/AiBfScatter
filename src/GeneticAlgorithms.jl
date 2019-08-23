@@ -123,11 +123,11 @@ module GeneticAlgorithms
         newSolutions = true
         j = 0
         while newSolutions
-            index = addNew(model.refSet, model.population)
+            #=index = addNew(model.refSet, model.population)
             newE = model.population[index]
             deleteat!(model.population, index)
             push!(model.population, popfirst!(model.refSet))
-            push!(model.refSet, newE)
+            push!(model.refSet, newE)=#
             # 3. Generate NewSubsets with the subset generation method. Make NewSolutions = FALSE.
             lrefSet = length(model.refSet)
             model.subSets = subSetsGeneration(lrefSet)
@@ -207,7 +207,7 @@ module GeneticAlgorithms
                 # 8. Delete s from NewSubsets.
                 # --> already done with pop!
             end
-            evaluate_refSet(model)
+            #evaluate_refSet(model)
         end
     end
 
