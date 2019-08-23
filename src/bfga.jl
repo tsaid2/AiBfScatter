@@ -144,8 +144,8 @@ module bfga
                 child1.dna[i] = parent1.dna[i]
             end
         end
-        mutate(child1)
-        mutate(child2)
+        mutate(child1, 0.01)
+        mutate(child2, 0.01)
         #clearCode!(child1)
         #clearCode!(child2)
         child1.m_length = minN #length(child1.dna)
@@ -181,13 +181,13 @@ module bfga
         child1, child2
     end=#
 
-    function mutate(ent)
+    function mutate(ent, mutationRate)
         m_length = length(ent.dna)
         # Go through each bit.
         for pos in 1:m_length
 
             # Should this bit mutate?
-            if (rand() < 0.06)
+            if (rand() < mutationRate)
                 # Select a mutation type.
                 r = rand()
                 if (r <= 0.25)
