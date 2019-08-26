@@ -45,7 +45,7 @@ module bfga
     function isPresent(ent, ens)
         if isempty(ens)
             return false
-        elseif ent.dna == ens[1].dna
+        elseif ent.program == ens[1].program #ent.dna == ens[1].dna
             return true
         elseif length(ens)== 1
             return false
