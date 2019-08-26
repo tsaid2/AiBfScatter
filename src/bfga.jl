@@ -39,7 +39,7 @@ module bfga
     end
 
     function create_entity(dna :: Array)
-        bfMonster(dna)
+        bfMonster(deepcopy(dna))
     end
 
     function isPresent(ent, ens)
@@ -56,7 +56,7 @@ module bfga
 
 
     #Constants
-    global instructions = ['<', '>', '+', '-', '.', ',', '[', ']' ] #, '$', '!', '*']
+    global instructions = ['<', '>', '+', '-', '.', ',', '[', ']'] # , '$', '!', '*']
 
     global instructions2 = ['<', '>', '+', '-', '.', ',', '[', ']','$', '!', '*' , '#' , '@', '/' , '%']
 
@@ -88,31 +88,6 @@ module bfga
         ent.program
     end
 
-    #=function group_entities!(pop)
-        println("BEST: ", pop[1].fitness)
-        @show pop[1].dna
-        println("SECOND: ", pop[2].fitness)
-
-        if pop[1].fitness == 0
-            return
-        end
-
-        liste = []
-        # simple naive groupings that pair the best entitiy with every other
-        for i in 1:length(pop)
-            #produce([1, i])
-            prems = 1
-            if rand() > 0.3
-                prems = rand(2:10)
-                #=if prems < 0
-                    prems *= -1
-                end
-                prems = (prems % length(pop)) +1 =#
-            end
-            push!(liste , [prems,i])
-        end
-        liste
-    end=#
 
     function getInstructionsSet()
         mem = BfInterpreter.getInstructionsDict()
@@ -120,7 +95,7 @@ module bfga
         mem
     end
 
-    #=function crossover(group)
+    function crossover(group)
         mem = rand(1:2)
         mem2 = mem%2 +1
         parent1 = group[mem]
@@ -151,7 +126,7 @@ module bfga
         child1.m_length = minN #length(child1.dna)
         child2.m_length = minN #length(child2.dna)
         child1, child2
-    end=#
+    end
 
     #=function crossover(group)
         parent1 = group[1]
@@ -181,7 +156,7 @@ module bfga
         child1, child2
     end=#
 
-    function crossover(group)
+    function crossoverGroup(group)
         nEnt = length(group)
         n = length(group[1].dna)
         child1 = child1 = create_entity(1, n)
@@ -195,8 +170,8 @@ module bfga
                 num += 1
             end
         end
-        mutate(child1, 0.01)
-        mutate(child2, 0.01)
+        mutate(child1, 0.1)
+        mutate(child2, 0.1)
         child1, child2
     end
 
@@ -346,24 +321,45 @@ module bfga
 
 
     function clearCode!(ent)
-        n = ent.m_length
-        bfCodeArray = [] #Array{Float64,1}
-        #age = ent.age
+        indexopen = []
+        indexclose =[]
 
-        #=bfcode = join((genesToBfInstructions(bfgenes)), "")
-        replace(bfcode, r"[^\+\-\<\>\.\,\[\]]" => s"") =#
-        i= 1
-        while i < n
-            if floatToBfInstruction(ent.dna[i]) == '[' && floatToBfInstruction(ent.dna[i+1]) == ']'
-                i += 1
-            else
-                append!(bfCodeArray, [ent.dna[i] ])
+        for i in 1:ent.m_length
+            if (floatToBfInstruction(ent.dna[i]) == ']' && isempty(indexopen))
+                r = rand()
+                #=while floatToBfInstruction(r) == ']'
+                    r = rand()
+                end=#
+                if floatToBfInstruction(r) == '['
+                    push!(indexopen, i)
+                end
+                ent.dna[i] = r
+            elseif floatToBfInstruction(ent.dna[i]) == ']'
+                d = pop!(indexopen)
+                if d == i-1
+                    r = rand()
+                    #=while floatToBfInstruction(r) == ']'
+                        r = rand()
+                    end=#
+                    if floatToBfInstruction(r) == '['
+                        push!(indexopen, i)
+                    end
+                    ent.dna[i] = r
+                end
+            elseif floatToBfInstruction(ent.dna[i]) == '['
+                push!(indexopen, i)
             end
-            i+=1
         end
-        # has to be changed, ugly convertion
-        ent.dna = [ i::Float64 for i in bfCodeArray] :: Array{Float64,1}
-        ent.m_length = length(bfCodeArray)
+
+        #=if !isempty(indexopen)
+            for e in indexopen
+                r = rand()
+                while (floatToBfInstruction(r) == ']' ||  floatToBfInstruction(r) == '[')
+                    r = rand()
+                end
+                ent.dna[e] = r
+            end
+        end=#
     end
 
 

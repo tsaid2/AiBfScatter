@@ -10,7 +10,7 @@
 
     @time model = test_serial()
     #@time model = test_parallel()
-    prems = model.population[length(model.population)]
+    prems = model.refSet[length(model.refSet)]
     println("Generation : $(model.params.currentGeneration)")
     println("& fitness : $(model.specific_fitness.fitness(prems, model.instructionsSet))")
 

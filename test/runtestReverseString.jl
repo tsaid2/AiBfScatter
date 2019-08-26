@@ -9,7 +9,7 @@
 
 
     @time model = test_serial()
-    prems = model.population[length(model.population)]
+    prems = model.refSet[length(model.refSet)]
     println("Generation : $(model.params.currentGeneration)")
     bfcode :: Array{Float64,1}  = prems.dna
     println("code : $(prems.program) ") # $(join(genesToBfInstructions(bfcode), "") ) ")
