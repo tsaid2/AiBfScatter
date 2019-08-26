@@ -1,7 +1,7 @@
 
 module bfga
 
-    import Base.isless
+    import Base.isless, Base.isequal
 
     include("Types.jl")
     using .Types
@@ -30,7 +30,13 @@ module bfga
     #nbGenes = 150
 
     function isless(lhs::bfMonster, rhs::bfMonster)
-        (lhs.fitness, rhs.bonus) < (rhs.fitness , lhs.bonus) # abs(lhs.fitness) > abs(rhs.fitness)
+        #lhs.fitness < rhs.fitness || lhs.bonus > rhs.bonus
+        #(lhs.fitness, rhs.bonus) < (rhs.fitness , lhs.bonus) # abs(lhs.fitness) > abs(rhs.fitness)
+        (lhs.fitness, lhs.bonus) < (rhs.fitness , rhs.bonus) # abs(lhs.fitness) > abs(rhs.fitness)
+    end
+
+    function isequal(lhs::bfMonster, rhs::bfMonster)
+        (lhs.fitness, rhs.bonus) == (rhs.fitness , lhs.bonus)
     end
 
     function create_entity(num, nbgenes)

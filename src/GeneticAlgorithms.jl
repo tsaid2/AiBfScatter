@@ -210,14 +210,14 @@ module GeneticAlgorithms
     function displayStep!(model, j)
         lastIdx = length(model.refSet)
         _fitness = model.refSet[lastIdx].fitness
-        if j % 20 == 0
+        if j % 100 == 0
             #@show refSetHasChanged
             #_log = ""
             _log = "    $(Dates.now()) , "
             _log *= "Gen : $(model.params.currentGeneration) , "
             _log *= "BEST: $_fitness , bonus = $(model.refSet[lastIdx].bonus) \n"
 
-            if j%100 == 0
+            if j%500 == 0
                 _log *= show_simulation(model, model.refSet[lastIdx]) * "\n"
             end
             print(_log)
@@ -246,8 +246,8 @@ module GeneticAlgorithms
             end
             model.subSets = map( s -> map( (e -> model.refSet[e]) , s) , subSetsInt)
             newSolutions = false
-
             while !isempty(model.subSets)
+                evaluate_refSet(model)
                 pool = []
                 lastIdx = length(model.refSet)
                 _fitness = model.refSet[lastIdx].fitness
@@ -293,7 +293,7 @@ module GeneticAlgorithms
                     model.ga.mutate(newS, 0.02)
                     push!(pool, newS)
                 end # for
-                #pmap( ent -> model.ga.clearCode!(ent), pool)
+                pmap( ent -> model.ga.clearCode!(ent), pool)
                 pmap(
                     ent -> (model.ga.entityToBfInstructions!(ent); model.specific_fitness.fitness(ent, model.instructionsSet))
                     , pool)
@@ -366,20 +366,7 @@ module GeneticAlgorithms
         =#
         lastIdx = model.params.populationSize #length(model.population)
         reset_model(model)
-        #=pSize = 0
-        popu = []
-        while pSize < lastIdx
-            create_initial_population(model)
-            evaluate_population(model)
-            sol = model.ga.create_entity(model.population[lastIdx].dna)
-            #model.ga.mutate(sol) # Apply the improvement method TODO
-            if !model.ga.isPresent(sol, popu)
-                push!(popu, sol)
-                pSize += 1
-            end
-            reset_model(model)
-        end
-        model.population = popu=#
+
         create_initial_population(model)
         pmap( ent -> model.ga.clearCode!(ent), model.population)
         evaluate_population(model)
@@ -473,7 +460,7 @@ module GeneticAlgorithms
 
         # the isless for the entities is defined in bfga
         sort!(model.population; rev = false)
-        model.scores = sort!(scores; rev = false)
+        model.scores = sort(scores; rev = false)
     end
 
 
@@ -483,16 +470,23 @@ module GeneticAlgorithms
 
         # for each entity, translate dna to bf instructions, then perform the specific fitness,
         # it saves its fitness & bonus in itself and return the fitness, see the fitness function
+
         scores = pmap(
             ent -> (model.ga.entityToBfInstructions!(ent); model.specific_fitness.fitness(ent, model.instructionsSet))
             , model.refSet)
-
+        #@show scores
         #model.params.totalFitness = sum(scores)
 
         #pmap(fitness!, model.population, scores) # TODO decomment for normal use
 
         # the isless for the entities is defined in bfga
+        #println()
+        #@show map( e -> e.fitness, model.refSet)
+        #@show map( e -> e.bonus, model.refSet)
         sort!(model.refSet; rev = false)
+        #@show map( e -> e.fitness, model.refSet)
+        #@show map( e -> e.bonus, model.refSet)
+        #println()
         #model.scores = sort!(scores; rev = false)
     end
 

@@ -20,10 +20,11 @@ module bfgaLengthString
 
 
     words = ["corio@domain.com", "mt@po.box", "test", "johnandjanesdfgjnsdkfjgjnrtkhreuitgure", "unknown-string-goes-here"]
-    _results = [15,9,4,38,24]
+    _results = [16,9,4,38,24]
 
 
     function fitness(ent, instructionsSet)
+        ent.bonus = 0.0
         score = 0
         #=score = @distributed (+) for i = 1:6
             fitness_aux(ent, i, instructionsSet)
@@ -37,7 +38,8 @@ module bfgaLengthString
 
     function fitness_aux(ent, instructionsSet)
         n = rand(1:5)
-        fitness_aux(ent, n)
+        ent.fitness = fitness_aux(ent, n)
+        ent.fitness
     end
 
     function fitness_aux(ent, num , instructionsSet)
