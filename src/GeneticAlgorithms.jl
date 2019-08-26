@@ -215,7 +215,8 @@ module GeneticAlgorithms
             #_log = ""
             _log = "    $(Dates.now()) , "
             _log *= "Gen : $(model.params.currentGeneration) , "
-            _log *= "BEST: $_fitness , \n"
+            _log *= "BEST: $_fitness , bonus = $(model.refSet[lastIdx].bonus) \n"
+
             if j%100 == 0
                 _log *= show_simulation(model, model.refSet[lastIdx]) * "\n"
             end
@@ -298,7 +299,8 @@ module GeneticAlgorithms
                     , pool)
                 evaluate_refSet(model)
                 for x in pool
-                    if !model.ga.isPresent(x,pool) && model.refSet[1] < x
+                    if !model.ga.isPresent(x,model.refSet) && model.refSet[1] < x
+                        print("hi")
                         # 9.
                         model.refSet[1] = x
                         evaluate_refSet(model)
