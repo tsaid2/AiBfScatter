@@ -69,32 +69,6 @@ module GeneticAlgorithms
         return "fitness : $(ent.fitness) \n $printed"
     end
 
-    function d_aux(x,y)
-        sum(x-y).^2
-    end
-
-    function distance(x,y)
-        l = length(x.dna)
-        mini = l
-        for i in -1:1
-            mini = min(mini, d_aux(x.dna[2:l-1], y.dna[2+i:l-1+i]))
-        end
-        mini
-    end
-
-    function addNew(refSet, population)
-        l = []
-        k = length(population[1].dna)
-        for e in population
-            mini = k
-            for s in refSet
-                mini = min(mini, sum((e.dna-s.dna).^2))
-                #mini = min(mini, distance(e,s))
-            end
-            push!(l, mini)
-        end
-        index = argmax(l)
-    end
 
     function findBestNotIn(ens, i)
         if i in ens
@@ -108,6 +82,7 @@ module GeneticAlgorithms
         subSets = []
         currentTypeSet = []
         oldTypeSet = []
+        lref = length(refSet)
         #Type2
         for i in 1:(n-1)
             map( a -> (push!(subSets, [a,i]); push!(currentTypeSet, [i, a]) ), i+1:n )
@@ -119,14 +94,14 @@ module GeneticAlgorithms
         oldTypeSet = map( a -> (i = findBestNotIn(a, 1); push!(subSets, [a;i]); [a;i]), oldTypeSet )
         # Type 5
         map(a -> push!(subSets, 1:a), 5:n)
-        map( s -> map(e -> refSet[e] , s) , subSets)
+        map( s -> map(e -> refSet[(lref - e +1)] , s) , subSets)
     end
 
-    function searchInCurrentRefSet(model)
+    function searchInCurrentRefSet_Basic(model)
         newSolutions = true
         j = 0
         while newSolutions
-            #=index = addNew(model.refSet, model.population)
+            #=index = model.ga.addNew(model.refSet, model.population)
             newE = model.population[index]
             deleteat!(model.population, index)
             push!(model.population, popfirst!(model.refSet))
@@ -157,7 +132,7 @@ module GeneticAlgorithms
                 pmap(
                     ent -> (model.ga.entityToBfInstructions!(ent); model.specific_fitness.fitness(ent, model.instructionsSet))
                     , pool)
-                sort!(pool, rev=true)
+                #sort!(pool, rev=true)
                 # 6. Apply the reference set update method.
                 newEntAdded = []
                 refSetHasChanged = false
@@ -167,6 +142,7 @@ module GeneticAlgorithms
                     if !isempty(model.refSet) && (model.refSet[1]) < e
                         model.refSet[1] = e
                         evaluate_refSet(model)
+                        sort!(model.refSet; rev = false)
                         #push!(newEntAdded, e)
                         #deleteat!(model.refSet, 1)
                         refSetHasChanged = true
@@ -174,6 +150,7 @@ module GeneticAlgorithms
                 end
                 #append!(model.refSet, newEntAdded)
                 evaluate_refSet(model)
+                sort!(model.refSet; rev = false)
 
                 lastIdx = length(model.refSet)
                 _fitness = model.refSet[lastIdx].fitness
@@ -210,14 +187,14 @@ module GeneticAlgorithms
     function displayStep!(model, j)
         lastIdx = length(model.refSet)
         _fitness = model.refSet[lastIdx].fitness
-        if j % 100 == 0
+        if j % 200 == 0
             #@show refSetHasChanged
             #_log = ""
             _log = "    $(Dates.now()) , "
             _log *= "Gen : $(model.params.currentGeneration) , "
             _log *= "BEST: $_fitness , bonus = $(model.refSet[lastIdx].bonus) \n"
 
-            if j%500 == 0
+            if j%1000 == 0
                 _log *= show_simulation(model, model.refSet[lastIdx]) * "\n"
             end
             print(_log)
@@ -247,7 +224,7 @@ module GeneticAlgorithms
             model.subSets = map( s -> map( (e -> model.refSet[e]) , s) , subSetsInt)
             newSolutions = false
             while !isempty(model.subSets)
-                evaluate_refSet(model)
+                #evaluate_refSet(model)
                 pool = []
                 lastIdx = length(model.refSet)
                 _fitness = model.refSet[lastIdx].fitness
@@ -279,7 +256,7 @@ module GeneticAlgorithms
                 for i in 1:NumImpl:r
                     # 6.
                     newS = model.ga.create_entity(pool2[i].dna)
-                    model.ga.mutate(newS, 0.1)
+                    model.ga.mutate(newS, 0.05)
                     push!(pool, newS)
                 end # for
                 #7.
@@ -290,20 +267,25 @@ module GeneticAlgorithms
                 for i in 1:NumImpl:s
                     #8..
                     newS = model.ga.create_entity(pool2[i].dna)
-                    model.ga.mutate(newS, 0.02)
+                    model.ga.mutate(newS, 0.05)
                     push!(pool, newS)
                 end # for
+                append!(pool, pool2)
                 pmap( ent -> model.ga.clearCode!(ent), pool)
                 pmap(
                     ent -> (model.ga.entityToBfInstructions!(ent); model.specific_fitness.fitness(ent, model.instructionsSet))
                     , pool)
-                evaluate_refSet(model)
+                #=println("pool")
+                map(e -> println(e.program) , pool)
+                println()=#
+                #evaluate_refSet(model)
+                sort!(model.refSet; rev = false)
                 for x in pool
-                    if !model.ga.isPresent(x,model.refSet) && model.refSet[1] < x
-                        print("hi")
+                    if model.refSet[1] < x && !model.ga.isPresent(x,model.refSet)
+                        #print("hi")
                         # 9.
                         model.refSet[1] = x
-                        evaluate_refSet(model)
+                        sort!(model.refSet; rev = false)
                         #10.
                         newSolutions = true
                     end # if
@@ -368,9 +350,9 @@ module GeneticAlgorithms
         reset_model(model)
 
         create_initial_population(model)
-        pmap( ent -> model.ga.clearCode!(ent), model.population)
+        #pmap( ent -> model.ga.clearCode!(ent), model.population)
         evaluate_population(model)
-        for i in 1:7
+        for i in 1:5
             push!(model.refSet, pop!(model.population))
         end
         #=
@@ -381,6 +363,7 @@ module GeneticAlgorithms
 
         found = false
         tour = 0
+        j = 0
         while !found
             tour += 1
             _log = "** Tour n. $tour at $(Dates.now()) \n"
@@ -389,24 +372,29 @@ module GeneticAlgorithms
                 write(model.params.historyPath, _log)
             end
 
-            for i in 1:7
-                index = addNew(model.refSet, model.population)
+            for i in 1:10
+                index = model.ga.addNew(model.refSet, model.population[1:div(model.params.populationSize, 2)])
                 push!(model.refSet, model.population[index])
                 deleteat!(model.population, index)
             end
 
             evaluate_refSet(model)
             #@show length(model.refSet)
-            #searchInCurrentRefSet(model)
+            #=if rand()< 0.5
+                searchInCurrentRefSet_Basic(model)
+            else
+                searchInCurrentRefSet_RelinkingPath(model)
+            end=#
             searchInCurrentRefSet_RelinkingPath(model)
             best = model.refSet[length(model.refSet)]
             found = best.fitness >= model.params.targetFitness
+            displayStep!(model, j*10)
             if !found
                 #append!(model.population, model.refSet)
                 empty!(model.population)
                 create_initial_population(model)
                 evaluate_population(model)
-                model.refSet = model.refSet[8:14]
+                model.refSet = model.refSet[11:15]
             end
         end
 
@@ -476,8 +464,6 @@ module GeneticAlgorithms
             , model.refSet)
         #@show scores
         #model.params.totalFitness = sum(scores)
-
-        #pmap(fitness!, model.population, scores) # TODO decomment for normal use
 
         # the isless for the entities is defined in bfga
         #println()
@@ -561,7 +547,7 @@ module GeneticAlgorithms
     end
 
     function mutate_population(model::GAmodel) # deprecated, the mutation is performed in the crossover
-        pmap(model.ga.mutate, model.population)
+        pmap(e -> model.ga.mutate( e, 0.01), model.population)
         #=for entity in model.population
             model.ga.mutate(entity)
         end=#

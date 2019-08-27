@@ -32,7 +32,7 @@ module bfga
     function isless(lhs::bfMonster, rhs::bfMonster)
         #lhs.fitness < rhs.fitness || lhs.bonus > rhs.bonus
         #(lhs.fitness, rhs.bonus) < (rhs.fitness , lhs.bonus) # abs(lhs.fitness) > abs(rhs.fitness)
-        (lhs.fitness, lhs.bonus) < (rhs.fitness , rhs.bonus) # abs(lhs.fitness) > abs(rhs.fitness)
+        (lhs.fitness, rhs.bonus) < (rhs.fitness , lhs.bonus) # abs(lhs.fitness) > abs(rhs.fitness)
     end
 
     function isequal(lhs::bfMonster, rhs::bfMonster)
@@ -59,6 +59,35 @@ module bfga
             return isPresent(ent, ens[2,:])
         end
     end
+
+    function d_aux(x::Array,y::Array)
+        sum(x-y).^2
+    end
+
+    function distance(x :: bfMonster ,y ::bfMonster)
+        l = length(x.dna)
+        mini = l
+        for i in -1:1
+            mini = min(mini, d_aux(x.dna[2:l-1], y.dna[2+i:l-1+i]))
+        end
+        mini
+    end
+
+    function addNew(refSet, population)
+        l = []
+        k = length(population[1].dna)
+        for e in population
+            mini = k
+            for s in refSet
+                mini = min(mini, sum((e.dna-s.dna).^2))
+                #mini = min(mini, distance(e,s))
+            end
+            push!(l, mini)
+        end
+        index = argmax(l)
+    end
+
+
 
 
     #Constants
