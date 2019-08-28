@@ -48,7 +48,10 @@ module bfgaLogicalXor
             output, m_Ticks = execute(ent.program, input, instructionsSet)
             n= length(output)
 
-            score = 256 - abs(Int(output[1]) - goal)
+            score = 256 - abs(Int(output[1]) - goal) - (input[1]==input[2] && Int(output[1])==1 ? 2 : 0)
+            if input[1]==1 && input[2] == 0 && Int(output[1])==0
+                score -= 1
+            end
             ent.bonus += (2000 - m_Ticks)
 
             abs(score) # - target_score)
@@ -111,7 +114,7 @@ module bfgaLogicalXor
         tgFitness =  getTargetFitness()
         println("targetFitness = $tgFitness ")
         write(logfile, "targetFitness = $tgFitness \n")
-        return Main.GeneticAlgorithms.Types.GAParams(136, 1000000 , 40, 150, 0.7, 0.01, true, logfile ,  0.0 , tgFitness, 0.0 , 0 )
+        return Main.GeneticAlgorithms.Types.GAParams(136, 1000000 , 50, 150, 0.7, 0.01, true, logfile ,  0.0 , tgFitness, 0.0 , 0 )
     end
 
 end

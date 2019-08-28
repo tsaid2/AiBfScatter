@@ -373,7 +373,7 @@ module GeneticAlgorithms
             end
 
             for i in 1:10
-                index = model.ga.addNew(model.refSet, model.population[1:div(model.params.populationSize, 2)])
+                index = model.ga.addNew(model.refSet, model.population[1:div(model.params.populationSize, 3)])
                 push!(model.refSet, model.population[index])
                 deleteat!(model.population, index)
             end
@@ -596,17 +596,18 @@ module GeneticAlgorithms
 
     function relinking!(x1, x2, pool, model)
         #println(length(pool))
-        d = div(x2.m_length, 5)
+        nb = 6
+        d = div(x2.m_length, nb)
         r = rand(0:(d-1))
         same = x1 == x2
         if same
             return
         end
         j = 0
-        while x1.dna[(r*5+1):((r+1)*5)] == x2.dna[(r*5+1):((r+1)*5)]
+        while x1.dna[(r*nb+1):((r+1)*nb)] == x2.dna[(r*nb+1):((r+1)*nb)]
             r = rand(0:(d-1))
             j+=1
-            if j >= 6
+            if j >= nb+
                 return
             end
         end
@@ -615,10 +616,10 @@ module GeneticAlgorithms
         sameRange = false
         if sum((x1.dna-x2.dna).^2) > (x1.m_length*0.1)
             if r == d -1
-                newS.dna[(r*5+1):end] = x2.dna[(r*5+1):end]
+                newS.dna[(r*nb+1):end] = x2.dna[(r*nb+1):end]
                 #newS[(r*5+1):end] = x2[(d*5+1):end]
             else
-                newS.dna[(r*5+1):((r+1)*5)] = x2.dna[(r*5+1):((r+1)*5)]
+                newS.dna[(r*nb+1):((r+1)*nb)] = x2.dna[(r*nb+1):((r+1)*nb)]
                 #newS[(r*5+1):(r+1)*5] = x2[(r*5+1):(r+1)*5]
             end
             push!(pool, newS)
