@@ -12,6 +12,7 @@ module GeneticAlgorithms
 
     include("bfgaReachBfCode.jl")
     using .bfgaReachBfCode
+    using Random
 
     import Base, Base.show, Base.isless
 
@@ -406,6 +407,7 @@ module GeneticAlgorithms
             #_log *= "\n Generation : $(model.params.currentGeneration) \n"
             _log *= "fitness $(best.fitness) \n"
             _log *= "dna : $(best.dna) \n"
+            print(_log)
             write(model.params.historyPath, _log)
             close(model.params.historyPath)
         end
@@ -594,27 +596,12 @@ module GeneticAlgorithms
         return idx
     end
 
-    function relinking!(x1, x2, pool, model)
-        #println(length(pool))
-        nb = 6
-        d = div(x2.m_length, nb)
-        r = rand(0:(d-1))
-        same = x1 == x2
-        if same
-            return
-        end
-        j = 0
-        while x1.dna[(r*nb+1):((r+1)*nb)] == x2.dna[(r*nb+1):((r+1)*nb)]
-            r = rand(0:(d-1))
-            j+=1
-            if j >= nb+
-                return
-            end
-        end
-
-        newS = model.ga.create_entity(x1.dna)
-        sameRange = false
-        if sum((x1.dna-x2.dna).^2) > (x1.m_length*0.1)
+    function relinking_aux!(x1, x2, pool, model, ens_val, d, nb)
+        if !isempty(ens_val)
+            #@show ens_val
+            r = pop!(ens_val)
+            newS = model.ga.create_entity(x1.dna)
+            sameRange = false
             if r == d -1
                 newS.dna[(r*nb+1):end] = x2.dna[(r*nb+1):end]
                 #newS[(r*5+1):end] = x2[(d*5+1):end]
@@ -623,12 +610,51 @@ module GeneticAlgorithms
                 #newS[(r*5+1):(r+1)*5] = x2[(r*5+1):(r+1)*5]
             end
             push!(pool, newS)
-            relinking!(newS, x2, pool, model)
+            relinking_aux!(newS, x2, pool, model, ens_val, d, nb)
         end
     end
 
+    function relinking!(x1, x2, pool, model)
+        #println(length(pool))
+        nb = 6
+        d = div(x2.m_length, nb)
+        X = collect(0:(d-1))
+        ens_val = X[randperm(length(X))]
+        relinking_aux!(x1, x2, pool, model, ens_val, d, nb)
+    end
 
 
+    function relinking2!(x1, x2, pool, model)
+           #println(length(pool))
+           nb = 6
+           d = div(x2.m_length, nb)
+           r = rand(0:(d-1))
+           same = x1 == x2
+           if same
+               return
+           end
+           j = 0
+           while x1.dna[(r*nb+1):((r+1)*nb)] == x2.dna[(r*nb+1):((r+1)*nb)]
+               r = rand(0:(d-1))
+               j+=1
+               if j >= nb+
+                   return
+               end
+           end
 
+           newS = model.ga.create_entity(x1.dna)
+           sameRange = false
+           if sum((x1.dna-x2.dna).^2) > (x1.m_length*0.1)
+               if r == d -1
+                   newS.dna[(r*nb+1):end] = x2.dna[(r*nb+1):end]
+                   #newS[(r*5+1):end] = x2[(d*5+1):end]
+               else
+                   newS.dna[(r*nb+1):((r+1)*nb)] = x2.dna[(r*nb+1):((r+1)*nb)]
+                   #newS[(r*5+1):(r+1)*5] = x2[(r*5+1):(r+1)*5]
+               end
+               push!(pool, newS)
+               relinking!(newS, x2, pool, model)
+           end
+       end
 
 end
