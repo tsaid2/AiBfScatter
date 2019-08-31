@@ -187,14 +187,14 @@ module GeneticAlgorithms
     function displayStep!(model, j; msg = "Iteration")
         lastIdx = length(model.refSet)
         _fitness = model.refSet[lastIdx].fitness
-        if j % 10 == 0
+        if j % 5 == 0
             #@show refSetHasChanged
             #_log = ""
             _log = "    $(Dates.now()) , "
             _log *= "$msg : $j, " #": $(model.params.currentGeneration) , "
             _log *= "BEST: $_fitness , bonus = $(model.refSet[lastIdx].bonus) \n"
 
-            if j%1000 == 0
+            if j%10 == 0
                 _log *= show_simulation(model, model.refSet[lastIdx]) * "\n"
             end
             print(_log)
