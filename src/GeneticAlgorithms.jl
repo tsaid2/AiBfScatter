@@ -191,7 +191,7 @@ module GeneticAlgorithms
             #@show refSetHasChanged
             #_log = ""
             _log = "    $(Dates.now()) , "
-            _log *= "Gen : $(model.params.currentGeneration) , "
+            _log *= "Iteration : $j, " #": $(model.params.currentGeneration) , "
             _log *= "BEST: $_fitness , bonus = $(model.refSet[lastIdx].bonus) \n"
 
             if j%1000 == 0
