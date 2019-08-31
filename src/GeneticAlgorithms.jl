@@ -368,8 +368,7 @@ module GeneticAlgorithms
             tour += 1
             _log = "** Tour n. $tour at $(Dates.now()) \n"
             if tour %10 ==0
-                _log *= displayStep!(model, tour)
-                _log *= "\n"
+                displayStep!(model, tour)
             end
             print(_log)
             if model.params.historyPath != nothing
