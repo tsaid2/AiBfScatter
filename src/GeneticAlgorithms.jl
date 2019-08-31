@@ -187,7 +187,7 @@ module GeneticAlgorithms
     function displayStep!(model, j)
         lastIdx = length(model.refSet)
         _fitness = model.refSet[lastIdx].fitness
-        if j % 200 == 0
+        if j % 20 == 0
             #@show refSetHasChanged
             #_log = ""
             _log = "    $(Dates.now()) , "
@@ -223,14 +223,14 @@ module GeneticAlgorithms
             end
             model.subSets = map( s -> map( (e -> model.refSet[e]) , s) , subSetsInt)
             newSolutions = false
+            # displays
+            j += 1
+            displayStep!(model, j)
             while !isempty(model.subSets)
                 #evaluate_refSet(model)
                 pool = []
                 lastIdx = length(model.refSet)
                 _fitness = model.refSet[lastIdx].fitness
-                # displays
-                j += 1
-                displayStep!(model, j)
                 if (model.params.targetFitness > 0 && _fitness >= model.params.targetFitness)
                     model.params.targetFitnessCount = model.params.targetFitnessCount +1
                     if (model.params.targetFitnessCount > 50) # default : set to 1000
@@ -367,9 +367,7 @@ module GeneticAlgorithms
         while !found
             tour += 1
             _log = "** Tour n. $tour at $(Dates.now()) \n"
-            if tour %10 ==0
-                displayStep!(model, tour)
-            end
+            displayStep!(model, tour)
             print(_log)
             if model.params.historyPath != nothing
                 write(model.params.historyPath, _log)
