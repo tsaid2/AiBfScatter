@@ -17,7 +17,7 @@ module bfgaHelloWorld
     include("Bf.jl")
     using .BfInterpreter
 
-    goal = "hello"
+    goal = "hi"
     target_length = length(goal)
     target_score = target_length*256 +10
 
