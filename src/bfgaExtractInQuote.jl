@@ -64,7 +64,10 @@ module bfgaExtractInQuote
                 #println()
             end
 
-            score -= max( 15,abs(n- target_length))
+            // Length penalty (percentage of 10).
+            score -= 100 * (abs(n - target_length)/ target_length);
+
+            #score -= max( 15,abs(n- target_length))
 
             #bonus = 0
             #targetFit = getTargetFitness()
