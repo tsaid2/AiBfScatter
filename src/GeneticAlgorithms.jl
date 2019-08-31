@@ -367,6 +367,10 @@ module GeneticAlgorithms
         while !found
             tour += 1
             _log = "** Tour n. $tour at $(Dates.now()) \n"
+            if tour %10 ==0
+                _log *= displayStep!(model, tour)
+                _log *= "\n"
+            end
             print(_log)
             if model.params.historyPath != nothing
                 write(model.params.historyPath, _log)
@@ -388,9 +392,6 @@ module GeneticAlgorithms
             searchInCurrentRefSet_RelinkingPath(model)
             best = model.refSet[length(model.refSet)]
             found = best.fitness >= model.params.targetFitness
-            if tour %10 ==0
-                displayStep!(model, tour)
-            end
             if !found
                 #append!(model.population, model.refSet)
                 empty!(model.population)
