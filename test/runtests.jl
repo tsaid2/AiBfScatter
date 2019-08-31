@@ -18,7 +18,8 @@ for tests in [
 			#"runtestCountdown.jl"
 			#"runtestExtractInQuote.jl",
 			#"runtestExtractInQuoteInside.jl"
-			"runtestFibonacci.jl"
+			#"runtestFibonacci.jl"
+			"runtestTrimLefToFQuote.jl"
 ]
     include(tests)
 end
