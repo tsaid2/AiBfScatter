@@ -64,7 +64,7 @@ module bfgaExtractInQuote
                 #println()
             end
 
-            // Length penalty (percentage of 10).
+            # Length penalty (percentage of 10).
             score -= 100 * (abs(n - target_length)/ target_length);
 
             #score -= max( 15,abs(n- target_length))
