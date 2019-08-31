@@ -8,8 +8,8 @@ for tests in [
             #"runtestAdd.jl", 			#
 			#"runtestLogicalOr.jl",		#
 			#"runtestLogicalXor.jl", 	#
-			#"runtestReverseString.jl",	# worked twice, pb, don't know why it doesn't work, working on
-			"runtestLengthString.jl",	# work twice and didn't try since
+			"runtestReverseString.jl",	# worked twice, pb, don't know why it doesn't work, working on
+			#"runtestLengthString.jl",	# work twice and didn't try since
 			#"runtestTimesTwo.jl",		# work sure
 			#"runtestTimesThree.jl"
 			#"runtestLogicalAnd.jl",	# wrok with extended sure
