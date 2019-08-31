@@ -614,7 +614,7 @@ module GeneticAlgorithms
         end
     end
 
-    function relinking!(x1, x2, pool, model)
+    function relinking2!(x1, x2, pool, model)
         #println(length(pool))
         nb = 6
         d = div(x2.m_length, nb)
@@ -624,7 +624,7 @@ module GeneticAlgorithms
     end
 
 
-    function relinking2!(x1, x2, pool, model)
+    function relinking!(x1, x2, pool, model)
            #println(length(pool))
            nb = 6
            d = div(x2.m_length, nb)
@@ -635,9 +635,10 @@ module GeneticAlgorithms
            end
            j = 0
            while x1.dna[(r*nb+1):((r+1)*nb)] == x2.dna[(r*nb+1):((r+1)*nb)]
+               #@show j
                r = rand(0:(d-1))
                j+=1
-               if j >= nb+
+               if j >= nb +1
                    return
                end
            end
