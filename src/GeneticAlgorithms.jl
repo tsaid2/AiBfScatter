@@ -184,14 +184,14 @@ module GeneticAlgorithms
         end #while
     end
 
-    function displayStep!(model, j)
+    function displayStep!(model, j; msg = "Iteration")
         lastIdx = length(model.refSet)
         _fitness = model.refSet[lastIdx].fitness
-        if j % 20 == 0
+        if j % 10 == 0
             #@show refSetHasChanged
             #_log = ""
             _log = "    $(Dates.now()) , "
-            _log *= "Iteration : $j, " #": $(model.params.currentGeneration) , "
+            _log *= "$msg : $j, " #": $(model.params.currentGeneration) , "
             _log *= "BEST: $_fitness , bonus = $(model.refSet[lastIdx].bonus) \n"
 
             if j%1000 == 0
@@ -367,7 +367,7 @@ module GeneticAlgorithms
         while !found
             tour += 1
             _log = "** Tour n. $tour at $(Dates.now()) \n"
-            displayStep!(model, tour)
+            displayStep!(model, tour, "Tour")
             print(_log)
             if model.params.historyPath != nothing
                 write(model.params.historyPath, _log)
