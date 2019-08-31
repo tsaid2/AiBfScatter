@@ -388,7 +388,9 @@ module GeneticAlgorithms
             searchInCurrentRefSet_RelinkingPath(model)
             best = model.refSet[length(model.refSet)]
             found = best.fitness >= model.params.targetFitness
-            displayStep!(model, j*10)
+            if tour %10 ==0
+                displayStep!(model, tour)
+            end
             if !found
                 #append!(model.population, model.refSet)
                 empty!(model.population)
