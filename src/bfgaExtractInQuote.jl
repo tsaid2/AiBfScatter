@@ -65,13 +65,13 @@ module bfgaExtractInQuote
             end
 
             # Length penalty (percentage of 10).
-            score -= 100 * (abs(n - target_length)/ target_length);
-
+            score -= (abs(n - target_length)/ target_length);
+            #@show score
             #score -= max( 15,abs(n- target_length))
 
             #bonus = 0
             #targetFit = getTargetFitness()
-            bonus = (2000 - m_Ticks)
+            bonus = ( m_Ticks)
             ent.bonus += bonus
 
             abs(score)# - target_score)

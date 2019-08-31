@@ -16,8 +16,9 @@ for tests in [
 			#"runtestRepeat.jl",		# work sure
 			#"runtestWarningCountdown.jl" # Doesn't work, NENI
 			#"runtestCountdown.jl"
-			"runtestExtractInQuote.jl",
+			#"runtestExtractInQuote.jl",
 			#"runtestExtractInQuoteInside.jl"
+			"runtestFibonacci.jl"
 ]
     include(tests)
 end
