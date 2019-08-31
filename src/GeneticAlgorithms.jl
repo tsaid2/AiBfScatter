@@ -319,8 +319,8 @@ module GeneticAlgorithms
         stop = false
 
         #set _expandAmount & _expandRate, TODO I think they are not placed very well in case we want specifi paramters for each fitness
-        _expandAmount = 0
-        _expandRate = 5000
+        _expandAmount = 10
+        _expandRate = 500
 
         if (!resume)
             #  initialize params.
@@ -373,6 +373,25 @@ module GeneticAlgorithms
             if model.params.historyPath != nothing
                 write(model.params.historyPath, _log)
             end
+            if (_expandAmount > 0 && tour % _expandRate == 0 && model.params.genomeSize < model.params.maxGenomeSize )
+                model.params.genomeSize +=  _expandAmount;
+                #_bestStatus.Fitness = 0; # Update display of best program, since genome has changed and we have a better/worse new best fitness.
+            end
+            if model.population[1].m_length != model.params.genomeSize
+                #println("expannndd")
+                newGenomeSize = model.params.genomeSize
+                for m in model.population
+                    if m.m_length != newGenomeSize
+                        model.ga.expand(m, newGenomeSize)
+                    end
+                end
+                for m in model.refSet
+                    if m.m_length != newGenomeSize
+                        model.ga.expand(m, newGenomeSize)
+                    end
+                end
+
+            end
 
             for i in 1:10
                 index = model.ga.addNew(model.refSet, model.population[1:div(model.params.populationSize, 3)])
@@ -397,6 +416,7 @@ module GeneticAlgorithms
                 evaluate_population(model)
                 model.refSet = model.refSet[11:15]
             end
+
         end
 
 
