@@ -1,4 +1,5 @@
-module bfgaExtractInQuoteInside
+
+module bfgaCountdown
 
     import Base.isless
     #using ResumableFunctions
@@ -17,17 +18,17 @@ module bfgaExtractInQuoteInside
     using .BfInterpreter
     using Distributed
 
+    export _trainingExamples, fitness, l_length
 
-    words = ["alice \"inside\" over", "xy \"test\" rights", "more \"steady\" working", "hopping \"foresting\" bat"]
-    _results = ["inside", "test", "steady", "foresting"]
-
+    _trainingExamples = [UInt8[5], UInt8[3],UInt8[2]]
+    l_length = length(_trainingExamples)
 
     function fitness(ent, instructionsSet)
         score = 0
         #=score = @distributed (+) for i = 1:6
             fitness_aux(ent, i, instructionsSet)
         end=#
-        for i = 1:4
+        for i = 1:l_length
             score += fitness_aux(ent, i, instructionsSet)
         end
         ent.fitness = score
@@ -35,15 +36,13 @@ module bfgaExtractInQuoteInside
     end
 
     function fitness_aux(ent, instructionsSet)
-        n = rand(1:4)
+        n = rand(1:l_length)
         fitness_aux(ent, n)
     end
 
     function fitness_aux(ent, num , instructionsSet)
         #goal = takeAString(num)
-        goal = _results[num]
-        input = words[num]
-        target_length = length(goal)
+        input = _trainingExamples[num]
         #target_score = target_length*256 #+10
         try
 
@@ -52,46 +51,41 @@ module bfgaExtractInQuoteInside
             score = 0
             n= length(output)
 
-            compteur =0
-            for i in output
-                #print(i)
-                compteur += 1
-                if compteur > target_length
+            bonus = 0
+            current_nb = input[1]
+            for i in 1:n
+                if current_nb < 0
                     break
                 end
-                score += 256 - abs(i - goal[compteur])
-                #println()
+                #println("test : $(Int(output[i])) $current_nb ")
+                score += 256 - abs(Int(output[i]) - current_nb)
+                current_nb -= 1
             end
-            mem = length(output) > target_length ? output[1:target_length] : output
-            score -= score > 50  && !occursin(join(mem), input) ? 50 : 0
 
-            #bonus = 0
-            #targetFit = getTargetFitness()
-            bonus = (2000 - m_Ticks)
-            ent.bonus += bonus
+            bonus += (2001 - m_Ticks) #/20
+            #bonus += 10 * ((target_length - abs(n -target_length)) / target_length)
+            ent.bonus += 5
 
-            abs(score)# - target_score)
+            #@show ent.dna
+            score = abs(score )
+            ent.fitness = score
+            score #- target_score)
         catch y
             0
         end
     end
 
     function simulate_entity(ent, instructionsSet)
-        #bft = bfType(ent.dna)
-        #goal = "try to \"ExtractInQuoteInside\" this"
-        #target_goal = length("ExtractInQuoteInside")
-        num = rand(1:4)
-        input = words[num]
-        goal = _results[num]
-        target_goal = length(goal)
         _res = "code : $(ent.program ) "
         #println(_res)
         try
-            output, ticks = execute(ent.program, input, instructionsSet)
-            if length(output) > target_goal
-                return " $_res \n $goal --> "*join(output[1:target_goal], "")
+            mem = rand(1:l_length)
+            nb = _trainingExamples[mem][1]
+            output, ticks = execute(ent.program, _trainingExamples[mem], instructionsSet)
+            if length(output) > nb+1
+                return " $_res \n count down $nb etc --> "* join(map(e -> Int(e),output[1:(nb+1)]), " ")
             else
-                return " $_res \n $goal --> "*join(output, "")
+                return " $_res \n count down $nb etc --> "*join(map(e -> Int(e),output), " ")
             end
         catch y
             return " $_res \n BEST raises Errors \n Error : $y "
@@ -99,7 +93,7 @@ module bfgaExtractInQuoteInside
     end
 
     function getTargetFitness()
-        256* length(join(_results, ""))
+        256*sum( map(t -> t[1]+1 , _trainingExamples) )
     end
 
 
@@ -124,12 +118,12 @@ module bfgaExtractInQuoteInside
         #fitnessTable :: Array{Float64,1}
         =#
 
-        logfile = open("../Results/logExtractInQuoteInside.log", "w")
+        logfile = open("../Results/logCountdown.log", "w")
 
         tgFitness =  getTargetFitness()
         println("targetFitness = $tgFitness ")
         write(logfile, "targetFitness = $tgFitness \n")
-        return Main.GeneticAlgorithms.Types.GAParams(100, 1000000 , 80, 110, 0.7, 0.01, true, logfile ,  0.0 , tgFitness, 0.0 , 0 )
+        return Main.GeneticAlgorithms.Types.GAParams(100, 10000 , 30, 150, 0.7, 0.01, true, logfile ,  0.0 , tgFitness, 0.0 , 0 )
     end
 
     function getBfCode(ent)
@@ -148,18 +142,6 @@ using Distributed
 #using Pkg
 
 function test_serial()
-    model = GeneticAlgorithms.runga(bfga, bfgaExtractInQuoteInside) #, initial_pop_size = 156)
+    model = GeneticAlgorithms.runga(bfga, bfgaCountdown) #, initial_pop_size = 156)
     model
-end
-
-
-#---------------------------------
-function test_parallel(; nprocs_to_add = 2)
-    addprocs(nprocs_to_add)
-
-    @everywhere include("../src/GeneticAlgorithms.jl")
-    @everywhere include("../test/runtestExtractInQuoteInside.jl")
-    println("nprocs: $(nprocs())")
-
-    runga(bfga, bfgaExtractInQuoteInside )#, initial_pop_size = 156)
 end

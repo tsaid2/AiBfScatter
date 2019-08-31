@@ -11,22 +11,24 @@ module bfgaLogicalAnd
     #include("GeneticAlgorithms.jl")
     #using .GeneticAlgorithms
 
-    #include("bfga.jl")
-    #using .bfga
+    include("bfga.jl")
+    using .bfga
 
     include("Bf.jl")
     using .BfInterpreter
 
     export _trainingExamples, _trainingResults, fitness
-
-    _trainingExamples = [ "00" , "01" , "10" , "11" ]
-    _trainingResults = [ '0', '0', '0', '1' ]
+    #ns = Char(0)
+    #ms = Char(1)
+    #_trainingExamples = [ "$ns$ns" , "$ms$ns" , "$ns$ms" , "$ms$ms" ]
+    _trainingExamples = [ UInt8[0,0] , UInt8[1,0] , UInt8[0,1] , UInt8[1,1] ]
+    _trainingResults = [ 0, 0, 0, 1 ]
 
     function fitness(ent, instructionsSet)
         #println(" $(join(genesToBfInstructions(ent.dna),"")) ")
         score = 0
-        score = @distributed (+) for i in 1:4
-            fitness_aux(ent, i, instructionsSet)
+        @sync for i in 1:4
+            @async score += fitness_aux(ent, i, instructionsSet)
         end
         ent.fitness = score
         score
@@ -43,25 +45,22 @@ module bfgaLogicalAnd
         goal = _trainingResults[num]
 
         #target_length = length(goal)
-        #target_score = target_length*256 #+10
+        #target_score = target_length*256
         try
             output, m_Ticks = execute(ent.program, input, instructionsSet)
+            n= length(output)
 
-            #score = 0
-            #n= length(output)
-
-            score = 256 - abs(output[1] - goal)
-
+            score = 256 - abs(Int(output[1]) - goal)
             ent.bonus += (2000 - m_Ticks)
 
-            abs(score) +10 # - target_score)
+            abs(score) # - target_score)
         catch y
             0
         end
     end
 
     function getBfCode(ent)
-        ent.program
+        join( ent.program , "")
     end
 
     function simulate_entity(ent, instructionsSet)
@@ -74,7 +73,7 @@ module bfgaLogicalAnd
                 if length(output) == 0
                     _res = _res* "\n $(_trainingExamples[i]) -> Void "
                 else
-                    _res = _res* "\n $(_trainingExamples[i]) -> "*join(output[1], "")
+                    _res = _res* "\n $(_trainingExamples[i]) -> $(Int(output[1])) "
                 end
             catch y
                 _res = _res* "\n BEST raises Errors \n Error : $y "
@@ -86,7 +85,7 @@ module bfgaLogicalAnd
     end
 
     function getTargetFitness()
-        256* 4 + 40
+        256* 4
     end
 
     function getParams()
@@ -114,7 +113,7 @@ module bfgaLogicalAnd
         tgFitness =  getTargetFitness()
         println("targetFitness = $tgFitness ")
         write(logfile, "targetFitness = $tgFitness \n")
-        return Main.GeneticAlgorithms.Types.GAParams(100, 1000000 , 150, 150, 0.7, 0.01, true, logfile ,  0.0 , tgFitness, 0.0 , 0 )
+        return Main.GeneticAlgorithms.Types.GAParams(136, 1000000 , 50, 150, 0.7, 0.01, true, logfile ,  0.0 , tgFitness, 0.0 , 0 )
     end
 
 end

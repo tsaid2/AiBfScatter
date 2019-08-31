@@ -1,7 +1,7 @@
-@testset "runtestLogicalAnd" begin
-    println("Testing runtestLogicalAnd")
-    include("../src/bfgaLogicalAnd.jl")
-    using .bfgaLogicalAnd
+@testset "runtestCountdown" begin
+    println("Testing runtestCountdown")
+    include("../src/bfgaCountdown.jl")
+    using .bfgaCountdown
 
     include("../src/Bf.jl")
     using .BfInterpreter
@@ -20,10 +20,12 @@
     #_trainingResults = [ '1', '0', '0', '1' ]
 
     #bft = bfType(bfcode)
-    for i in 1:4
-        output, _ = execute(prems.program, _trainingExamples[i], model.instructionsSet)
-        @test length(output) >= 1
-        @test _trainingResults[i] == Int(output[1])
+    for t in _trainingExamples
+        output, _ = execute(prems.program, t, model.instructionsSet)
+        @test length(output) >= (t[1] +1)
+        for i in 0:t[1]
+            @test t[1]-i == Int(output[(i+1)])
+        end
     end
 
 

@@ -47,9 +47,10 @@ module bfgaTimesTwo
             #n= length(output)
 
             #score = n > 0 ? (256 - abs(output[1] - goal)) : 0
-            score = 256 - abs(Int(output[1]) - goal)
+            mem =  abs(Int(output[1]) - goal)
+            score = 256 - mem
 
-            ent.bonus += 2000 - m_Ticks
+            ent.bonus += 2000 - m_Ticks + mem^2
 
             abs(score) # - target_score)
         catch y
@@ -108,7 +109,7 @@ module bfgaTimesTwo
         tgFitness =  getTargetFitness()
         println("targetFitness = $tgFitness ")
         write(logfile, "targetFitness = $tgFitness \n")
-        return Main.GeneticAlgorithms.Types.GAParams(136, 1000000 , 70, 150, 0.7, 0.01, true, logfile ,  0.0 , tgFitness, 0.0 , 0 )
+        return Main.GeneticAlgorithms.Types.GAParams(136, 1000000 , 50, 150, 0.7, 0.01, true, logfile ,  0.0 , tgFitness, 0.0 , 0 )
     end
 
     function getBfCode(ent)
