@@ -195,7 +195,7 @@ module GeneticAlgorithms
             _log *= "$msg : $j, " #": $(model.params.currentGeneration) , "
             _log *= "BEST: $_fitness , bonus = $(model.refSet[lastIdx].bonus) \n"
 
-            if j%10 == 0
+            if j%40 == 0
                 _log *= show_simulation(model, model.refSet[lastIdx]) * "\n"
             end
             print(_log)
@@ -320,7 +320,7 @@ module GeneticAlgorithms
 
         #set _expandAmount & _expandRate, TODO I think they are not placed very well in case we want specifi paramters for each fitness
         _expandAmount = 10
-        _expandRate = 500
+        _expandRate = 350
 
         if (!resume)
             #  initialize params.
