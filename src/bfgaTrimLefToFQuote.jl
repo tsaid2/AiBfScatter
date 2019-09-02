@@ -63,7 +63,7 @@ module bfgaTrimLefToFQuote
                 score += 256 - abs(i - goal[compteur])
                 #println()
             end
-            mem = length(output) > target_length ? output[1:target_length] : output
+            #mem = length(output) > target_length ? output[1:target_length] : output
             #score -= score > 50  && !occursin(join(mem), input) ? 50 : 0
 
             #bonus = 0
