@@ -19,7 +19,7 @@ module bfgaTimesThree
     using Distributed
 
 
-    _trainingExamples = [ 4, 7, 10, 1  ]
+    _trainingExamples = [ 4, 5, 8, 15 ]
     l_trainingExamples = length(_trainingExamples)
 
     function fitness(ent, instructionsSet)
