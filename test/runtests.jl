@@ -5,7 +5,7 @@ using Random
 
 for tests in [
 			#"runtestString.jl",		# work sure
-            "runtestAdd.jl", 			#
+            #"runtestAdd.jl", 			#
 			#"runtestLogicalOr.jl",		#
 			#"runtestLogicalXor.jl", 	#
 			#"runtestReverseString.jl",	# worked twice, pb, don't know why it doesn't work, working on
@@ -18,7 +18,7 @@ for tests in [
 			#"runtestCountdown.jl"
 			#"runtestExtractInQuote.jl",
 			#"runtestExtractInQuoteInside.jl"
-			#"runtestFibonacci.jl"
+			"runtestFibonacci.jl"
 			#"runtestTrimLefToFQuote.jl"
 ]
     include(tests)
