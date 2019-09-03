@@ -18,7 +18,7 @@ module bfgaSubtract
     using Distributed
 
 
-    _trainingExamples = [ (9,8), (6,3), (4,2), (5,1), (7,2) ]
+    _trainingExamples = [(2,2), (9,8), (6,3), (4,2), (5,1), (7,0) ]
     l_trainingExamples = length(_trainingExamples)
 
     function fitness(ent, instructionsSet)
@@ -50,7 +50,7 @@ module bfgaSubtract
 
             ent.bonus += 2000 - m_Ticks
 
-            abs(score) # - target_score)
+            abs(score)
         catch y
             0
         end
@@ -64,7 +64,7 @@ module bfgaSubtract
             try
                 n1 = rand(0:15)
                 rest = 255 - n1
-                n2 = rand(0: 15)
+                n2 = rand(0: n1)
                 output, _ = execute(ent.program, UInt8[n1, n2], instructionsSet)
                 _res = _res * "\n $n1 - $n2 -> "
                 if length(output) == 0
@@ -109,7 +109,7 @@ module bfgaSubtract
         tgFitness =  getTargetFitness()
         println("targetFitness = $tgFitness ")
         write(logfile, "targetFitness = $tgFitness \n")
-        return Main.GeneticAlgorithms.Types.GAParams(136, 1000000 , 40, 150, 0.7, 0.01, true, logfile ,  0.0 , tgFitness, 0.0 , 0 )
+        return Main.GeneticAlgorithms.Types.GAParams(136, 1000000 , 50, 150, 0.7, 0.01, true, logfile ,  0.0 , tgFitness, 0.0 , 0 )
     end
 
     function getBfCode(ent)
