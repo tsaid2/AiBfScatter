@@ -319,8 +319,8 @@ module GeneticAlgorithms
         stop = false
 
         #set _expandAmount & _expandRate, TODO I think they are not placed very well in case we want specifi paramters for each fitness
-        _expandAmount = 0
-        _expandRate = 400
+        _expandAmount = 4
+        _expandRate = 500
 
         if (!resume)
             #  initialize params.
