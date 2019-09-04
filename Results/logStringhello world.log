@@ -1,0 +1,47 @@
+targetFitness = 2826 
+params : Main.GeneticAlgorithms.Types.GAParams(156, 10000000, 50, 300, 0.8, 0.01, true, IOStream(<file ../Results/logStringhello world.log>), 0.0, 2826.0, 0, 0) 
+** Tour n. 1 at 2019-09-04T02:19:28.753 
+    2019-09-04T02:19:30.815 , Iteration : 5, BEST: 1853 , bonus = 1.0 
+    2019-09-04T02:19:31.492 , Iteration : 10, BEST: 2269 , bonus = 1.0 
+    2019-09-04T02:19:32.171 , Iteration : 15, BEST: 2344 , bonus = 1.0 
+    2019-09-04T02:19:32.59 , Iteration : 20, BEST: 2364 , bonus = 1.0 
+** Tour n. 2 at 2019-09-04T02:19:32.721 
+    2019-09-04T02:19:33.098 , Iteration : 5, BEST: 2373 , bonus = 1.0 
+    2019-09-04T02:19:33.413 , Iteration : 10, BEST: 2382 , bonus = 694.0 
+    2019-09-04T02:19:33.672 , Iteration : 15, BEST: 2397 , bonus = 369.0 
+    2019-09-04T02:19:33.937 , Iteration : 20, BEST: 2403 , bonus = 1347.0 
+    2019-09-04T02:19:34.21 , Iteration : 25, BEST: 2412 , bonus = 1021.0 
+    2019-09-04T02:19:34.482 , Iteration : 30, BEST: 2420 , bonus = 1334.0 
+    2019-09-04T02:19:34.756 , Iteration : 35, BEST: 2439 , bonus = 1.0 
+    2019-09-04T02:19:35.022 , Iteration : 40, BEST: 2448 , bonus = 342.0 
+fitness : 2448 
+  code : ++++++++++++++++++++++++++++++[++++++++++.].,+<,<-  
+ goal : hello world -> (2<FPZdnx
+    2019-09-04T02:19:35.329 , Iteration : 45, BEST: 2458 , bonus = 1.0 
+    2019-09-04T02:19:35.606 , Iteration : 50, BEST: 2469 , bonus = 1328.0 
+    2019-09-04T02:19:35.867 , Iteration : 55, BEST: 2478 , bonus = 308.0 
+** Tour n. 3 at 2019-09-04T02:19:35.986 
+    2019-09-04T02:19:36.28 , Iteration : 5, BEST: 2481 , bonus = 1.0 
+** Tour n. 4 at 2019-09-04T02:19:36.347 
+    2019-09-04T02:19:36.626 , Tour : 5, BEST: 2481 , bonus = 1.0 
+** Tour n. 5 at 2019-09-04T02:19:36.626 
+** Tour n. 6 at 2019-09-04T02:19:36.886 
+** Tour n. 7 at 2019-09-04T02:19:37.162 
+** Tour n. 8 at 2019-09-04T02:19:37.423 
+** Tour n. 9 at 2019-09-04T02:19:37.632 
+    2019-09-04T02:19:37.839 , Tour : 10, BEST: 2481 , bonus = 1.0 
+** Tour n. 10 at 2019-09-04T02:19:37.839 
+** Tour n. 11 at 2019-09-04T02:19:38.053 
+** Tour n. 12 at 2019-09-04T02:19:38.249 
+** Tour n. 13 at 2019-09-04T02:19:38.526 
+** Tour n. 14 at 2019-09-04T02:19:38.788 
+    2019-09-04T02:19:39.008 , Tour : 15, BEST: 2481 , bonus = 1.0 
+** Tour n. 15 at 2019-09-04T02:19:39.008 
+** Tour n. 16 at 2019-09-04T02:19:39.217 
+** Tour n. 17 at 2019-09-04T02:19:39.482 
+** Tour n. 18 at 2019-09-04T02:19:39.745 
+** Tour n. 19 at 2019-09-04T02:19:39.972 
+    2019-09-04T02:19:40.228 , Tour : 20, BEST: 2481 , bonus = 1.0 
+** Tour n. 20 at 2019-09-04T02:19:40.228 
+** Tour n. 21 at 2019-09-04T02:19:40.497 
+** Tour n. 22 at 2019-09-04T02:19:40.702 

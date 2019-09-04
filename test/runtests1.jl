@@ -10,7 +10,7 @@ for tests in [
 			#"runtestLogicalXor.jl", 	#
 			#"runtestReverseString.jl",	# worked twice, pb, don't know why it doesn't work, working on
 			#"runtestLengthString.jl",	# work twice and didn't try since
-			#"runtestTimesTwo.jl",		# work sure
+			"runtestTimesTwo.jl",		# work sure
 			#"runtestTimesThree.jl"
 			#"runtestLogicalAnd.jl",	# wrok with extended sure
 			#"runtestRepeat.jl",		# work sure
@@ -19,8 +19,8 @@ for tests in [
 			#"runtestExtractInQuote.jl",
 			#"runtestExtractInQuoteInside.jl"
 			#"runtestFibonacci.jl"
-			"runtestTrimLefToFQuote.jl"
-			#"runtestSubtract.jl"
+			#"runtestTrimLefToFQuote.jl"
+			"runtestSubtract.jl"
 			]
     include(tests)
 end
