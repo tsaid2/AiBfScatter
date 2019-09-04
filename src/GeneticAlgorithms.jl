@@ -250,7 +250,7 @@ module GeneticAlgorithms
                 (child1, child2) = model.ga.crossover(xxp)
                 push!(pool, child1)
                 push!(pool, child2)
-
+                relinking!(xxp[1], xxp[2], pool2, model)
                 relinking2!(xxp[1], xxp[2], pool2, model)
                 append!(pool, pool2)
                 r= length(pool2)
@@ -262,6 +262,7 @@ module GeneticAlgorithms
                 end # for
                 #7.
                 pool2 = []
+                relinking!(xxp[2], xxp[1], pool2, model)
                 relinking2!(xxp[2], xxp[1], pool2, model)
                 append!(pool, pool2)
                 s= length(pool2)
