@@ -393,7 +393,7 @@ module GeneticAlgorithms
 
             end
 
-            for i in 1:13
+            for i in 1:10
                 index = model.ga.addNew(model.refSet, model.population[1:div(model.params.populationSize,2)])
                 push!(model.refSet, model.population[index])
                 deleteat!(model.population, index)
@@ -414,7 +414,7 @@ module GeneticAlgorithms
                 empty!(model.population)
                 create_initial_population(model)
                 evaluate_population(model)
-                model.refSet = model.refSet[14:18]
+                model.refSet = model.refSet[11:15]
             end
 
         end
@@ -658,14 +658,16 @@ module GeneticAlgorithms
                #@show j
                r = rand(0:(d-1))
                j+=1
-               if j >= nb +1
+               #@show j
+               if j >= nb +3
+                   #@show "yes"
                    return
                end
            end
 
            newS = model.ga.create_entity(x1.dna)
            sameRange = false
-           if sum((x1.dna-x2.dna).^2) > (x1.m_length*0.1)
+           if sum((x1.dna-x2.dna).^2) > (x1.m_length*0.05)
                if r == d -1
                    newS.dna[(r*nb+1):end] = x2.dna[(r*nb+1):end]
                    #newS[(r*5+1):end] = x2[(d*5+1):end]
