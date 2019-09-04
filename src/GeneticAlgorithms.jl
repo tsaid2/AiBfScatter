@@ -251,7 +251,7 @@ module GeneticAlgorithms
                 push!(pool, child1)
                 push!(pool, child2)
 
-                relinking!(xxp[1], xxp[2], pool2, model)
+                relinking2!(xxp[1], xxp[2], pool2, model)
                 append!(pool, pool2)
                 r= length(pool2)
                 for i in 1:NumImpl:r
@@ -262,7 +262,7 @@ module GeneticAlgorithms
                 end # for
                 #7.
                 pool2 = []
-                relinking!(xxp[2], xxp[1], pool2, model)
+                relinking2!(xxp[2], xxp[1], pool2, model)
                 append!(pool, pool2)
                 s= length(pool2)
                 for i in 1:NumImpl:s
@@ -679,5 +679,17 @@ module GeneticAlgorithms
                relinking!(newS, x2, pool, model)
            end
        end
+
+       function relinking2!(x1, x2, pool, model)
+              newS = model.ga.create_entity(x1.dna)
+
+              if sum((x1.dna-x2.dna).^2) > (x1.m_length*0.1)
+                  for i in 1:x1.m_length
+                      newS.dna[i] = x1.dna[i] + (x2.dna[i]-x1.dna[i])/10
+                  end
+                  push!(pool, newS)
+                  relinking!(newS, x2, pool, model)
+              end
+          end
 
 end
