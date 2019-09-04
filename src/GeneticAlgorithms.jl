@@ -393,8 +393,8 @@ module GeneticAlgorithms
 
             end
 
-            for i in 1:10
-                index = model.ga.addNew(model.refSet, model.population[1:div(model.params.populationSize,3)])
+            for i in 1:13
+                index = model.ga.addNew(model.refSet, model.population[1:div(model.params.populationSize,2)])
                 push!(model.refSet, model.population[index])
                 deleteat!(model.population, index)
             end
@@ -414,7 +414,7 @@ module GeneticAlgorithms
                 empty!(model.population)
                 create_initial_population(model)
                 evaluate_population(model)
-                model.refSet = model.refSet[11:15]
+                model.refSet = model.refSet[14:18]
             end
 
         end
