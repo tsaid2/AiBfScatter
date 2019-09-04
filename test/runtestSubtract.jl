@@ -20,10 +20,10 @@
 
     #bft = bfType(bfcode)
 
-    for i in 1:3
-        nb1 = rand(0:20)
-        rest = 255 - nb1
-        nb2 = rand(0: rest)
+    for i in 1:5
+        nb1 = rand(0:30)
+        #rest = 255 - nb1
+        nb2 = rand(0: nb1)
         input = UInt8[ nb1, nb2]
         output, _ = execute(prems.program, input,  model.instructionsSet)
         @test length(output) >= 1
