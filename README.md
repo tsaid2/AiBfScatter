@@ -3,11 +3,11 @@
 like Ai5, This algorithm is based on Ai Pogrammer: an Ai developed in C# by Kory Becker using Genetic Algorithms to generate brainfuck code.
 See its Github repository which refers to the Becker's article: https://github.com/primaryobjects/AI-Programmer.
 
-AiBfScatter uses in its core a Scatter Search algorithm whereas Ai5 and Ai Programmer uses a Genetic Algorithm. We don't extend brainfuck language to the extended-III Brainfuck
+AiBfScatter uses in its core a Scatter Search Algorithm (SSA) whereas Ai5 and Ai Programmer uses a Genetic one. We don't extend brainfuck language to the extended-III Brainfuck.
 
 ## The architecture of the algorithm : 
 
- List of modules of the GA:
+ List of modules of the SSA:
  <ul>
 <li>GeneticAlgorithms: this module is the GA Manager. It does every operation of the global algorithm: evaluate and crossover population, write on the log file, decide when the genome size has to be expanded and when the algorithm has to stop.</li>
 <li>bfga: this module performs all unit operations on individuals: creates, mutates individuals, decodes the Brainfuck from genome.</li>
