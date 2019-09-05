@@ -1,5 +1,5 @@
 
-module GeneticAlgorithms
+module SSA
 
     # -------
     using RandomExtensions

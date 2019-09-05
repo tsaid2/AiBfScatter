@@ -6,9 +6,9 @@ module bfgaTrimLefToFQuote
     include("Types.jl")
     using .Types
 
-    #using GeneticAlgorithms
-    #include("GeneticAlgorithms.jl")
-    #using .GeneticAlgorithms
+    #using SSA
+    #include("SSA.jl")
+    #using .SSA
 
     include("bfga.jl")
     using .bfga
@@ -130,7 +130,7 @@ module bfgaTrimLefToFQuote
         tgFitness =  getTargetFitness()
         println("targetFitness = $tgFitness ")
         write(logfile, "targetFitness = $tgFitness \n")
-        return Main.GeneticAlgorithms.Types.GAParams(100, 1000000 , 30, 120, 0.7, 0.01, true, logfile ,  0.0 , tgFitness, 0.0 , 0 )
+        return Main.SSA.Types.GAParams(100, 1000000 , 30, 120, 0.7, 0.01, true, logfile ,  0.0 , tgFitness, 0.0 , 0 )
     end
 
     function getBfCode(ent)
@@ -140,8 +140,8 @@ module bfgaTrimLefToFQuote
 
 end
 
-include("../src/GeneticAlgorithms.jl")
-using .GeneticAlgorithms
+include("../src/SSA.jl")
+using .SSA
 include("bfga.jl")
 using .bfga
 
@@ -149,6 +149,6 @@ using Distributed
 #using Pkg
 
 function test_serial()
-    model = GeneticAlgorithms.runssa(bfga, bfgaTrimLefToFQuote) #, initial_pop_size = 156)
+    model = SSA.runssa(bfga, bfgaTrimLefToFQuote) #, initial_pop_size = 156)
     model
 end

@@ -7,9 +7,9 @@ module bfgaHelloWorld
 
     using Distributed
 
-    #using GeneticAlgorithms
-    #include("GeneticAlgorithms.jl")
-    #using .GeneticAlgorithms
+    #using SSA
+    #include("SSA.jl")
+    #using .SSA
 
     include("bfga.jl")
     using .bfga
@@ -105,14 +105,14 @@ module bfgaHelloWorld
         tgFitness =  getTargetFitness()
         println("targetFitness = $tgFitness ")
         write(logfile, "targetFitness = $tgFitness \n")
-        return Main.GeneticAlgorithms.Types.GAParams(156, 10000000 , 250, 250, 0.8, 0.01, true, logfile ,  0.0 , tgFitness, 0.0 , 0 )
+        return Main.SSA.Types.GAParams(156, 10000000 , 250, 250, 0.8, 0.01, true, logfile ,  0.0 , tgFitness, 0.0 , 0 )
     end
 
 
 end
 
-include("../src/GeneticAlgorithms.jl")
-using .GeneticAlgorithms
+include("../src/SSA.jl")
+using .SSA
 include("bfga.jl")
 using .bfga
 
@@ -121,5 +121,5 @@ using Pkg
 
 
 function test_serial()
-    GeneticAlgorithms.runssa(bfga, bfgaHelloWorld) #, initial_pop_size = 136)
+    SSA.runssa(bfga, bfgaHelloWorld) #, initial_pop_size = 136)
 end

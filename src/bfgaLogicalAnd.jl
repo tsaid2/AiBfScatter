@@ -7,9 +7,9 @@ module bfgaLogicalAnd
     using .Types
     using Distributed
 
-    #using GeneticAlgorithms
-    #include("GeneticAlgorithms.jl")
-    #using .GeneticAlgorithms
+    #using SSA
+    #include("SSA.jl")
+    #using .SSA
 
     include("bfga.jl")
     using .bfga
@@ -113,17 +113,17 @@ module bfgaLogicalAnd
         tgFitness =  getTargetFitness()
         println("targetFitness = $tgFitness ")
         write(logfile, "targetFitness = $tgFitness \n")
-        return Main.GeneticAlgorithms.Types.GAParams(136, 1000000 , 50, 150, 0.7, 0.01, true, logfile ,  0.0 , tgFitness, 0.0 , 0 )
+        return Main.SSA.Types.GAParams(136, 1000000 , 50, 150, 0.7, 0.01, true, logfile ,  0.0 , tgFitness, 0.0 , 0 )
     end
 
 end
 
 include("bfga.jl")
-include("GeneticAlgorithms.jl")
+include("SSA.jl")
 
 
 #using Pkg
 
 function test_serial()
-    GeneticAlgorithms.runssa(bfga, bfgaLogicalAnd) #, initial_pop_size = 136)
+    SSA.runssa(bfga, bfgaLogicalAnd) #, initial_pop_size = 136)
 end

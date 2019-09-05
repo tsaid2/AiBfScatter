@@ -8,9 +8,9 @@ module bfgaReverseString
 
     using Distributed
 
-    #using GeneticAlgorithms
-    #include("GeneticAlgorithms.jl")
-    #using .GeneticAlgorithms
+    #using SSA
+    #include("SSA.jl")
+    #using .SSA
 
     include("bfga.jl")
     using .bfga
@@ -112,7 +112,7 @@ module bfgaReverseString
 
         tgFitness =  getTargetFitness()
         println("targetFitness = $tgFitness ")
-        return Main.GeneticAlgorithms.Types.GAParams(136, 1000000 , 40 , 150, 0.7, 0.015, true, logfile ,  0.0 , tgFitness, 0.0 , 0 )
+        return Main.SSA.Types.GAParams(136, 1000000 , 40 , 150, 0.7, 0.015, true, logfile ,  0.0 , tgFitness, 0.0 , 0 )
     end
 
     function getBfCode(ent)
@@ -121,8 +121,8 @@ module bfgaReverseString
 
 end
 
-include("../src/GeneticAlgorithms.jl")
-using .GeneticAlgorithms
+include("../src/SSA.jl")
+using .SSA
 include("bfga.jl")
 using .bfga
 
@@ -130,5 +130,5 @@ using Distributed
 using Pkg
 
 function test_serial()
-    GeneticAlgorithms.runssa(bfga, bfgaReverseString) #, initial_pop_size = 135)
+    SSA.runssa(bfga, bfgaReverseString) #, initial_pop_size = 135)
 end

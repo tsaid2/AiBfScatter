@@ -7,9 +7,9 @@ module bfgaTimesThree
     include("Types.jl")
     using .Types
 
-    #using GeneticAlgorithms
-    #include("GeneticAlgorithms.jl")
-    #using .GeneticAlgorithms
+    #using SSA
+    #include("SSA.jl")
+    #using .SSA
 
     include("bfga.jl")
     using .bfga
@@ -108,7 +108,7 @@ module bfgaTimesThree
         tgFitness =  getTargetFitness()
         println("targetFitness = $tgFitness ")
         write(logfile, "targetFitness = $tgFitness \n")
-        return Main.GeneticAlgorithms.Types.GAParams(136, 1000000 , 45, 50, 0.7, 0.01, true, logfile ,  0.0 , tgFitness, 0.0 , 0 )
+        return Main.SSA.Types.GAParams(136, 1000000 , 45, 50, 0.7, 0.01, true, logfile ,  0.0 , tgFitness, 0.0 , 0 )
     end
 
     function getBfCode(ent)
@@ -117,8 +117,8 @@ module bfgaTimesThree
 
 end
 
-include("../src/GeneticAlgorithms.jl")
-using .GeneticAlgorithms
+include("../src/SSA.jl")
+using .SSA
 include("bfga.jl")
 using .bfga
 
@@ -126,5 +126,5 @@ using Distributed
 using Pkg
 
 function test_serial()
-    GeneticAlgorithms.runssa(bfga, bfgaTimesThree) #, initial_pop_size = 135)
+    SSA.runssa(bfga, bfgaTimesThree) #, initial_pop_size = 135)
 end

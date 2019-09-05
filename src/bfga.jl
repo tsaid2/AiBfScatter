@@ -6,9 +6,9 @@ module bfga
     include("Types.jl")
     using .Types
 
-    #using GeneticAlgorithms
-    #include("GeneticAlgorithms.jl")
-    #using .GeneticAlgorithms
+    #using SSA
+    #include("SSA.jl")
+    #using .SSA
 
     include("Bf.jl")
     import .BfInterpreter
