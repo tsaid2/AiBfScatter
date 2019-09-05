@@ -8,7 +8,7 @@ for tests in [
             #"runtestAdd.jl", 			#
 			#"runtestLogicalOr.jl",		#
 			#"runtestLogicalXor.jl", 	#
-			"runtestReverseString.jl",	#
+			#"runtestReverseString.jl",	#
 			"runtestLengthString.jl",	#
 			#"runtestTimesTwo.jl",		#
 			#"runtestTimesThree.jl"
