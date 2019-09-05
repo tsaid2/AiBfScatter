@@ -19,8 +19,8 @@ module bfgaLengthString
     using Distributed
 
 
-    words = ["corio@domain.com", "mt@po.box", "test", "johnandjanesdfgjnsdkfjgjnrtkhreuitgure", "unknown-string-goes-here" ]
-    _results = [16,9,4,38,24]
+    words = ["cori@domain.com", "mt@po.box", "test", "johnandjanesdfgjnsdkfjgjnrtkhreuitgure", "unknown-string-goes-here" ]
+    _results = [15,9,4,38,24]
 
 
     function fitness(ent, instructionsSet)
