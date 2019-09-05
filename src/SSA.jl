@@ -319,8 +319,8 @@ module SSA
         stop = false
 
         #set _expandAmount & _expandRate, TODO I think they are not placed very well in case we want specifi paramters for each fitness
-        _expandAmount = 10
-        _expandRate = 200
+        _expandAmount = 5
+        _expandRate = 500
 
         if (!resume)
             #  initialize params.
