@@ -25,12 +25,12 @@ It is then necessary to implement 4 functions:
 <ul>
 <li>fitness: assigns a score to a program according to its execution within the embedded interpreter :
 	
-		```
-		output, m_Ticks = execute(ent.program, input, instructionsSet)
-		score = 256 - abs(output[1] - goal) 
-		ent.bonus += (2000 - m_Ticks)
-		abs(score)
-		```
+	```
+	output, m_Ticks = execute(ent.program, input, instructionsSet)
+	score = 256 - abs(output[1] - goal) 
+	ent.bonus += (2000 - m_Ticks)
+	abs(score)
+	```
 		
 A bonus can be earned according to criteria you choose. Here it's about the number of executions within the interpreter.</li>
 <li>simulate_entity: the simulation function that will display performances of the best algorithms every 1000 generations.</li>
@@ -38,7 +38,10 @@ A bonus can be earned according to criteria you choose. Here it's about the numb
 <li>getParams(): returns a GAParams object (see Types.jl) that specifies the initial parameters of the algorithm: population size, maximum number of generations, genome size and its maximum, log file, etc.</li>
 </ul>
 
-Do not forget to build the input/output set illustrating the task to be accomplished.
+ If the task is not complex, please begin with small size of genome and expand it if desired during executions.
+
+Do not forget to build the input/output set illustrating the task to be accomplished. If a fitness has been correctly coded, the solution generated should perform the wanted task. E.g, if your set of I/O examples only contain strings of lengths less than 9, the fitness ”reverse string” can give a program unable to reverse a string of length 11 (encountered
+issue). Hence the importance of the presence of a tests set.
 
 To start the GA with your fitness function, you call ```GeneticAlgorithms.runga(bfga, bfgaLengthString)```. GeneticAlgorithms will use the bfga module for program unit operations (mutations, crossover with an other program, etc.) and bfgaLengthString for the fitness function.
 
