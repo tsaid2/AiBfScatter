@@ -13,7 +13,7 @@ AiBfScatter uses in its core a Scatter Search Algorithm (SSA) whereas Ai5 and Ai
 <li>bfga: this module performs all unit operations on individuals: creates, mutates individuals, decodes the Brainfuck from genome.</li>
 <li>Bf: the embedded Brainfuck interpreter. </li>
 <li>bfgaAdd: this type of file represents the fitness function associated with the "addition" operation. It also contains the initial parameters of individuals (genome size, etc). The SSA can be started from this file by calling the "test\_serial" method.</li>
-<li>Types.jl : This file contains 2 types: GAmodel which is used by GeneticAlgorithms to manage the SSA and GAParams, used by the different fitness functions to give the desired initial parameters.</li>
+<li>Types.jl : This file contains 2 types: GAmodel which is used by GeneticAlgorithms to manage the SSA and GAParams, used by the different fitness functions to give the desired initial parameters. If the task is not complex, please begin with small size of genome and expand it if desired during executions.</li>
 </ul>
 
 ## Use the algorithm : 
