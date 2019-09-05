@@ -458,11 +458,6 @@ module GeneticAlgorithms
 
 
     function evaluate_population(model::GAmodel)
-        #pmap(model.ga.entityToBfInstructions!, model.population)
-        #scores = [ model.specific_fitness.fitness(ent, model.instructionsSet) for ent in model.population ]
-
-        # for each entity, translate dna to bf instructions, then perform the specific fitness,
-        # it saves its fitness & bonus in itself and return the fitness, see the fitness function
         scores = pmap(
             ent -> (model.ga.entityToBfInstructions!(ent); model.specific_fitness.fitness(ent, model.instructionsSet))
             , model.population)
@@ -476,27 +471,10 @@ module GeneticAlgorithms
 
 
     function evaluate_refSet(model::GAmodel)
-        #pmap(model.ga.entityToBfInstructions!, model.population)
-        #scores = [ model.specific_fitness.fitness(ent, model.instructionsSet) for ent in model.population ]
-
-        # for each entity, translate dna to bf instructions, then perform the specific fitness,
-        # it saves its fitness & bonus in itself and return the fitness, see the fitness function
-
         scores = pmap(
             ent -> (model.ga.entityToBfInstructions!(ent); model.specific_fitness.fitness(ent, model.instructionsSet))
             , model.refSet)
-        #@show scores
-        #model.params.totalFitness = sum(scores)
-
-        # the isless for the entities is defined in bfga
-        #println()
-        #@show map( e -> e.fitness, model.refSet)
-        #@show map( e -> e.bonus, model.refSet)
         sort!(model.refSet; rev = false)
-        #@show map( e -> e.fitness, model.refSet)
-        #@show map( e -> e.bonus, model.refSet)
-        #println()
-        #model.scores = sort!(scores; rev = false)
     end
 
 
@@ -517,10 +495,6 @@ module GeneticAlgorithms
             g = thisGeneration[l]
             l_1 = (model.params.populationSize) -1
             g2 = thisGeneration[l-1]
-            #push!(model.population, g)
-            #push!(model.pop_data, EntityData(g, model.params.currentGeneration))
-            #push!(model.population, g2)
-            #push!(model.pop_data, EntityData(g2, model.params.currentGeneration))
 
             _length += 2;
         end
@@ -587,9 +561,6 @@ module GeneticAlgorithms
     end
 
     function rouletteSelection(model :: GAmodel)
-        #idx = trunc(Int, rand()*length(model.scores))
-        #_idx = idx ==0 ? 1 : idx
-        #rand(1:trunc(Int, _idx))
 
         n = model.params.populationSize #length(model.scores)
         randomFitness = rand() * (model.scores[n] == 0 ? 1 : model.scores[n])
@@ -625,17 +596,15 @@ module GeneticAlgorithms
             sameRange = false
             if r == d -1
                 newS.dna[(r*nb+1):end] = x2.dna[(r*nb+1):end]
-                #newS[(r*5+1):end] = x2[(d*5+1):end]
             else
                 newS.dna[(r*nb+1):((r+1)*nb)] = x2.dna[(r*nb+1):((r+1)*nb)]
-                #newS[(r*5+1):(r+1)*5] = x2[(r*5+1):(r+1)*5]
             end
             push!(pool, newS)
             relinking_aux!(newS, x2, pool, model, ens_val, d, nb)
         end
     end
 
-    function relinking2!(x1, x2, pool, model)
+    function relinking3!(x1, x2, pool, model)
         #println(length(pool))
         nb = 6
         d = div(x2.m_length, nb)
