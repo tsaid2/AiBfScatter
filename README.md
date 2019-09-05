@@ -9,11 +9,11 @@ AiBfScatter uses in its core a Scatter Search Algorithm (SSA) whereas Ai5 and Ai
 
  List of modules of the SSA:
  <ul>
-<li>GeneticAlgorithms: this module is the GA Manager. It does every operation of the global algorithm: evaluate and crossover population, write on the log file, decide when the genome size has to be expanded and when the algorithm has to stop.</li>
+<li>GeneticAlgorithms: this module is the SSA Manager. It does every operation of the global algorithm: evaluate and crossover population, write on the log file, decide when the genome size has to be expanded and when the algorithm has to stop.</li>
 <li>bfga: this module performs all unit operations on individuals: creates, mutates individuals, decodes the Brainfuck from genome.</li>
 <li>Bf: the embedded Brainfuck interpreter. </li>
-<li>bfgaAdd: this type of file represents the fitness function associated with the "addition" operation. It also contains the initial parameters of individuals (genome size, etc). The GA can be started from this file by calling the "test\_serial" method.</li>
-<li>Types.jl : This file contains 2 types: GAmodel which is used by GeneticAlgorithms to manage the GA and GAParams, used by the different fitness functions to give the desired initial parameters.</li>
+<li>bfgaAdd: this type of file represents the fitness function associated with the "addition" operation. It also contains the initial parameters of individuals (genome size, etc). The SSA can be started from this file by calling the "test\_serial" method.</li>
+<li>Types.jl : This file contains 2 types: GAmodel which is used by GeneticAlgorithms to manage the SSA and GAParams, used by the different fitness functions to give the desired initial parameters.</li>
 </ul>
 
 ## Use the algorithm : 
@@ -50,4 +50,20 @@ Finally, you can write a test file in the test/ folder to check the partial corr
 
 ## Results
 
+The algorithm has been successful in producing programs for several functions:
+
+For the display of  "hi":
+```
++++++++++++++[++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++[+--++++++++.------]]
+
+performed in 99s with 79 iterations
+```
+
+For the display of  "Hi!":
+```
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++[.++++++++++[+++++++++++++++++++++++.->++++++++++]+++++.[>]>]
+
+in 165 s, 42 iterations
+```
+These two programs are not very optimized because SSA explores a lot the neighbourhood of its refSet to find a new trial program. So he found that adding'+' or a'-' was the fastest way to get closer to the target ("hi" or "Hi!").
 
