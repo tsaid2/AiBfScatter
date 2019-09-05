@@ -255,7 +255,6 @@ module GeneticAlgorithms
                 #7.
                 pool2 = []
                 relinking!(xxp[2], xxp[1], pool2, model)
-                relinking2!(xxp[2], xxp[1], pool2, model)
                 append!(pool, pool2)
                 s= length(pool2)
                 for i in 1:NumImpl:s
@@ -264,7 +263,19 @@ module GeneticAlgorithms
                     model.ga.mutate(newS, 0.05)
                     push!(pool, newS)
                 end # for
+                # An experiment part
+                pool2 = []
+                relinking2!(xxp[1], xxp[2], pool2, model)
                 append!(pool, pool2)
+                s= length(pool2)
+                for i in 1:NumImpl:s
+                    #8..
+                    newS = model.ga.create_entity(pool2[i].dna)
+                    model.ga.mutate(newS, 0.05)
+                    push!(pool, newS)
+                end # for
+                # An experiment part
+                #append!(pool, pool2)
                 pmap( ent -> model.ga.clearCode!(ent), pool)
                 pmap(
                     ent -> (model.ga.entityToBfInstructions!(ent); model.specific_fitness.fitness(ent, model.instructionsSet))
