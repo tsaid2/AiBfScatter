@@ -262,8 +262,8 @@ module GeneticAlgorithms
                 end # for
                 #7.
                 pool2 = []
-                relinking!(xxp[2], xxp[1], pool2, model)
-                #relinking2!(xxp[2], xxp[1], pool2, model)
+                #relinking!(xxp[2], xxp[1], pool2, model)
+                relinking2!(xxp[2], xxp[1], pool2, model)
                 append!(pool, pool2)
                 s= length(pool2)
                 for i in 1:NumImpl:s
