@@ -263,7 +263,7 @@ module GeneticAlgorithms
                     model.ga.mutate(newS, 0.05)
                     push!(pool, newS)
                 end # for
-                # An experiment part
+                #= An experiment part
                 pool2 = []
                 relinking2!(xxp[1], xxp[2], pool2, model)
                 append!(pool, pool2)
@@ -274,7 +274,7 @@ module GeneticAlgorithms
                     model.ga.mutate(newS, 0.05)
                     push!(pool, newS)
                 end # for
-                # An experiment part
+                # An experiment part =#
                 #append!(pool, pool2)
                 pmap( ent -> model.ga.clearCode!(ent), pool)
                 pmap(
