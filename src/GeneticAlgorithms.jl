@@ -10,8 +10,6 @@ module GeneticAlgorithms
 
     import Dates
 
-    include("bfgaReachBfCode.jl")
-    using .bfgaReachBfCode
     using Random
 
     import Base, Base.show, Base.isless
