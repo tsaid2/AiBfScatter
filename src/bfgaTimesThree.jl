@@ -19,7 +19,7 @@ module bfgaTimesThree
     using Distributed
 
 
-    _trainingExamples = [ 1, 4, 7, 10]
+    _trainingExamples = [ 1, 4, 8, 10, 18]
     l_trainingExamples = length(_trainingExamples)
 
     function fitness(ent, instructionsSet)
@@ -108,7 +108,7 @@ module bfgaTimesThree
         tgFitness =  getTargetFitness()
         println("targetFitness = $tgFitness ")
         write(logfile, "targetFitness = $tgFitness \n")
-        return Main.SSA.Types.GAParams(136, 1000000 , 35, 50, 0.7, 0.01, true, logfile ,  0.0 , tgFitness, 0.0 , 0 )
+        return Main.SSA.Types.GAParams(136, 1000000 , 40, 50, 0.7, 0.01, true, logfile ,  0.0 , tgFitness, 0.0 , 0 )
     end
 
     function getBfCode(ent)
