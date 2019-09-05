@@ -25,12 +25,12 @@ It is then necessary to implement 4 functions:
 <ul>
 <li>fitness: assigns a score to a program according to its execution within the embedded interpreter :
 	
-		```
-		output, m_Ticks = execute(ent.program, input, instructionsSet)
-		score = 256 - abs(output[1] - goal) 
-		ent.bonus += (2000 - m_Ticks)
-		abs(score)
-		```
+	```
+	output, m_Ticks = execute(ent.program, input, instructionsSet)
+	score = 256 - abs(output[1] - goal) 
+	ent.bonus += (2000 - m_Ticks)
+	abs(score)
+	```
 		
 A bonus can be earned according to criteria you choose. Here it's about the number of executions within the interpreter.</li>
 <li>simulate_entity: the simulation function that will display performances of the best algorithms every 1000 generations.</li>
