@@ -13,7 +13,7 @@ AiBfScatter uses in its core a Scatter Search Algorithm (SSA) whereas Ai5 and Ai
 <li>bfga: this module performs all unit operations on individuals: creates, mutates individuals, decodes the Brainfuck from genome.</li>
 <li>Bf: the embedded Brainfuck interpreter. </li>
 <li>bfgaAdd: this type of file represents the fitness function associated with the "addition" operation. It also contains the initial parameters of individuals (genome size, etc). The SSA can be started from this file by calling the "test\_serial" method.</li>
-<li>Types.jl : This file contains 2 types: GAmodel which is used by GeneticAlgorithms to manage the SSA and GAParams, used by the different fitness functions to give the desired initial parameters. If the task is not complex, please begin with small size of genome and expand it if desired during executions.</li>
+<li>Types.jl : This file contains 2 types: GAmodel which is used by GeneticAlgorithms to manage the SSA and GAParams, used by the different fitness functions to give the desired initial parameters.</li>
 </ul>
 
 ## Use the algorithm : 
@@ -38,7 +38,10 @@ A bonus can be earned according to criteria you choose. Here it's about the numb
 <li>getParams(): returns a GAParams object (see Types.jl) that specifies the initial parameters of the algorithm: population size, maximum number of generations, genome size and its maximum, log file, etc.</li>
 </ul>
 
-Do not forget to build the input/output set illustrating the task to be accomplished.
+ If the task is not complex, please begin with small size of genome and expand it if desired during executions.
+
+Do not forget to build the input/output set illustrating the task to be accomplished. If a fitness has been correctly coded, the solution generated should perform the wanted task. E.g, if your set of I/O examples only contain strings of lengths less than 9, the fitness ”reverse string” can give a program unable to reverse a string of length 11 (encountered
+issue). Hence the importance of the presence of a tests set.
 
 To start the GA with your fitness function, you call ```GeneticAlgorithms.runga(bfga, bfgaLengthString)```. GeneticAlgorithms will use the bfga module for program unit operations (mutations, crossover with an other program, etc.) and bfgaLengthString for the fitness function.
 
