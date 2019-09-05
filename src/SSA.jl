@@ -246,7 +246,7 @@ module SSA
                 #relinking2!(xxp[1], xxp[2], pool2, model)
                 append!(pool, pool2)
                 r= length(pool2)
-                for i in 1:r #NumImpl:r
+                for i in 1:NumImpl:r
                     # 6.
                     newS = model.ga.create_entity(pool2[i].dna)
                     model.ga.mutate(newS, 0.05)
@@ -257,7 +257,7 @@ module SSA
                 relinking!(xxp[2], xxp[1], pool2, model)
                 append!(pool, pool2)
                 s= length(pool2)
-                for i in 1:s #NumImpl:s
+                for i in 1:NumImpl:s
                     #8..
                     newS = model.ga.create_entity(pool2[i].dna)
                     model.ga.mutate(newS, 0.05)
