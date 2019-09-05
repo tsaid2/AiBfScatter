@@ -177,8 +177,4 @@ module BfInterpreter
         vm.output, vm.nbExec
     end
 
-    # Eliminating all extranious characters in the code
-    function purifyCode(bfcode :: String)
-        replace(bfcode, r"[^\+\-\<\>\.\,\[\]]" => s"")
-    end
 end

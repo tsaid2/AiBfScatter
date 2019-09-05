@@ -125,5 +125,5 @@ using Distributed
 using Pkg
 
 function test_serial()
-    GeneticAlgorithms.runga(bfga, bfgaLogicalOr) #, initial_pop_size = 136)
+    GeneticAlgorithms.runssa(bfga, bfgaLogicalOr) #, initial_pop_size = 136)
 end

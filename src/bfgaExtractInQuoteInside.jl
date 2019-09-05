@@ -148,7 +148,7 @@ using Distributed
 #using Pkg
 
 function test_serial()
-    model = GeneticAlgorithms.runga(bfga, bfgaExtractInQuoteInside) #, initial_pop_size = 156)
+    model = GeneticAlgorithms.runssa(bfga, bfgaExtractInQuoteInside) #, initial_pop_size = 156)
     model
 end
 
@@ -161,5 +161,5 @@ function test_parallel(; nprocs_to_add = 2)
     @everywhere include("../test/runtestExtractInQuoteInside.jl")
     println("nprocs: $(nprocs())")
 
-    runga(bfga, bfgaExtractInQuoteInside )#, initial_pop_size = 156)
+    runssa(bfga, bfgaExtractInQuoteInside )#, initial_pop_size = 156)
 end

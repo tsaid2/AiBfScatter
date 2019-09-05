@@ -130,5 +130,5 @@ using Distributed
 using Pkg
 
 function test_serial()
-    GeneticAlgorithms.runga(bfga, bfgaReverseString) #, initial_pop_size = 135)
+    GeneticAlgorithms.runssa(bfga, bfgaReverseString) #, initial_pop_size = 135)
 end

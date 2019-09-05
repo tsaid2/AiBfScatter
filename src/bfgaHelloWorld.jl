@@ -121,5 +121,5 @@ using Pkg
 
 
 function test_serial()
-    GeneticAlgorithms.runga(bfga, bfgaHelloWorld) #, initial_pop_size = 136)
+    GeneticAlgorithms.runssa(bfga, bfgaHelloWorld) #, initial_pop_size = 136)
 end

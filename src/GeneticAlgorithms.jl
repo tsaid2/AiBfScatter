@@ -16,7 +16,7 @@ module GeneticAlgorithms
 
     import Base, Base.show, Base.isless
 
-    export  runga,
+    export  runssa,
             isless,
             freeze,
             defrost,
@@ -174,12 +174,6 @@ module GeneticAlgorithms
                     # 7. Make NewSolutions = TRUE.
                     newSolutions = true
                 end
-                # 8. Delete s from NewSubsets.
-                # --> already done with pop!
-                #=for s in model.refSet
-                    println(s.program)
-                end
-                println()=#
             end  #while
             #evaluate_refSet(model)
         end #while
@@ -292,17 +286,13 @@ module GeneticAlgorithms
                         newSolutions = true
                     end # if
                 end # for
-                #=for s in model.refSet
-                    println(s.program)
-                end
-                println()=#
                 #11. Already done
             end #while
         end #while
     end
 
 
-    function runga(mdl::Module, fit_mdl :: Module )
+    function runssa(mdl::Module, fit_mdl :: Module )
         # get the parameters of the specific fitness
         model = GAmodel(fit_mdl.getParams())
         model.specific_fitness = fit_mdl
@@ -312,11 +302,11 @@ module GeneticAlgorithms
         # save once the dictionary of instructions Set
         model.instructionsSet = mdl.getInstructionsSet()
         #run the ga
-        runga(model; resume = false)
+        runssa(model; resume = false)
     end
 
 
-    function runga(model::GAmodel; resume = false)
+    function runssa(model::GAmodel; resume = false)
         stop = false
 
         #set _expandAmount & _expandRate, TODO I think they are not placed very well in case we want specifi paramters for each fitness
@@ -329,11 +319,6 @@ module GeneticAlgorithms
             model.params.targetFitness = model.specific_fitness.getTargetFitness();
             model.params.targetFitnessCount = 0;
             model.params.currentGeneration = 0;
-            #stop = false;
-
-            #reset_model(model)
-            #create_initial_population(model)
-            #evaluate_population(model)
         end
 
         if model.params.historyPath != nothing
@@ -478,9 +463,7 @@ module GeneticAlgorithms
     end
 
 
-
-
-    function crossover_population(model::GAmodel, groupings)
+    #=function crossover_population(model::GAmodel, groupings)
         thisGeneration = (population(model))
         _length = 1
 
@@ -541,9 +524,9 @@ module GeneticAlgorithms
                 end
             end
         end
-    end
+    end=#
 
-    function mutate_population(model::GAmodel) # deprecated, the mutation is performed in the crossover
+    #=function mutate_population(model::GAmodel) # deprecated, the mutation is performed in the crossover
         pmap(e -> model.ga.mutate( e, 0.01), model.population)
         #=for entity in model.population
             model.ga.mutate(entity)
@@ -558,7 +541,7 @@ module GeneticAlgorithms
             push!(model.population, entity)
             #@async push!(model.pop_data, EntityData(entity, model.params.currentGeneration))
         end
-    end
+    end=#
 
     function rouletteSelection(model :: GAmodel)
 

@@ -125,5 +125,5 @@ include("GeneticAlgorithms.jl")
 #using Pkg
 
 function test_serial()
-    GeneticAlgorithms.runga(bfga, bfgaLogicalAnd) #, initial_pop_size = 136)
+    GeneticAlgorithms.runssa(bfga, bfgaLogicalAnd) #, initial_pop_size = 136)
 end

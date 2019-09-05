@@ -142,6 +142,6 @@ using Distributed
 #using Pkg
 
 function test_serial()
-    model = GeneticAlgorithms.runga(bfga, bfgaCountdown) #, initial_pop_size = 156)
+    model = GeneticAlgorithms.runssa(bfga, bfgaCountdown) #, initial_pop_size = 156)
     model
 end
