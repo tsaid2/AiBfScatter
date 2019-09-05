@@ -56,7 +56,7 @@ For the display of  "hi":
 ```
 +++++++++++++[++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++[+--++++++++.------]]
 
-performed in 99s with 79 iterations
+performed in 99 s with 79 iterations
 ```
 
 For the display of  "Hi!":
@@ -66,4 +66,25 @@ For the display of  "Hi!":
 in 165 s, 42 iterations
 ```
 These two programs are not very optimized because SSA explores a lot the neighbourhood of its refSet to find a new trial program. So he found that adding'+' or a'-' was the fastest way to get closer to the target ("hi" or "Hi!").
+
+Logical XOR :
+```
+,+->,[<[,.][[>>]]>..>][+[>[<<[>-]]]]<.
+
+in 124 s with 165 iterations
+
+```
+
+Program to reverse any string : 
+```
++[>,],++<[[<[-+>.<[.<],<-+>.]+][,<><<+]]
+
+in 362 s, 383 iterations
+
+also
+
+-,[-+>,]<.<+-[.+-+-++<]
+in  181 s, with 222 iterations
+```
+
 
