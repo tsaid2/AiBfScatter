@@ -9,9 +9,9 @@ for tests in [
 			#"runtestLogicalOr.jl",		#
 			#"runtestLogicalXor.jl", 	#
 			#"runtestReverseString.jl",	#
-			"runtestLengthString.jl",	#
+			#"runtestLengthString.jl",	#
 			#"runtestTimesTwo.jl",		#
-			#"runtestTimesThree.jl"
+			"runtestTimesThree.jl"
 			#"runtestLogicalAnd.jl",	#
 			#"runtestRepeat.jl",		#
 			#"runtestWarningCountdown.jl" # BROKEN ! Doesn't work, NENI
