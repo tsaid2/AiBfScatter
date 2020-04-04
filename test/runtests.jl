@@ -4,14 +4,14 @@ using Random
 #Random.seed!(9874984737484)
 
 for tests in [
-			#"runtestString.jl",		#
+			"runtestString.jl",		#
             #"runtestAdd.jl", 			#
 			#"runtestLogicalOr.jl",		#
 			#"runtestLogicalXor.jl", 	#
 			#"runtestReverseString.jl",	#
 			#"runtestLengthString.jl",	#
 			#"runtestTimesTwo.jl",		#
-			"runtestTimesThree.jl"
+			#"runtestTimesThree.jl"
 			#"runtestLogicalAnd.jl",	#
 			#"runtestRepeat.jl",		#
 			#"runtestWarningCountdown.jl" # BROKEN ! Doesn't work, NENI
